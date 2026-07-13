@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডিপ্লোমা পরীক্ষার রুটিন ফাইন্ডার</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066cc;
+            --primary-hover: #004c99;
+            --bg: #f4f7f9;
+            --card-bg: #ffffff;
+            --text: #1a202c;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            padding: 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.15);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 800px;
+        }
+
+        thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #e0f2fe;
+            color: #0369a1;
+            margin-right: 6px;
+            margin-bottom: 4px;
+        }
+
+        #noResult {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .stats {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            .control-group {
+                width: 100%;
+            }
+            th, td {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>📅 ডিপ্লোমা ইঞ্জিনিয়ারিং পরীক্ষার রুটিন ফাইন্ডার</h1>
+        <p>বাংলাদেশ কারিগরি শিক্ষা বোর্ড | আগস্ট - সেপ্টেম্বর ২০২৬</p>
+    </header>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="searchInput">🔍 বিষয়ের নাম বা কোড দিয়ে খুঁজুন</label>
+            <input type="text" id="searchInput" placeholder="যেমন: স্ট্যাটিস্টিক্স, 26121, জাভা...">
+        </div>
+        <div class="control-group">
+            <label for="semesterFilter">🎓 সেমিস্টার অনুযায়ী ফিল্টার</label>
+            <select id="semesterFilter">
+                <option value="">সকল সেমিস্টার</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="deptFilter">🏛️ বিভাগ/টেকনোলজি অনুযায়ী ফিল্টার</label>
+            <select id="deptFilter">
+                <option value="">সকল বিভাগ</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="routineTable">
+            <thead>
+                <tr>
+                    <th>তারিখ ও বার</th>
+                    <th>সময়</th>
+                    <th>বিষয় কোড</th>
+                    <th>বিষয়ের নাম</th>
+                    <th>সেমিস্টার</th>
+                    <th>বিভাগসমূহ</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- ডেটা জাভাস্ক্রিপ্ট দ্বারা লোড হবে -->
+            </tbody>
+        </table>
+    </div>
+    <p id="noResult">⚠️ আপনার সার্চ বা ফিল্টারের সাথে মিলে এমন কোনো রুটিন পাওয়া যায়নি।</p>
+    <div class="stats" id="stats"></div>
+</div>
+
+<script>
+    // 🔹 পিডিএফ থেকে এক্সট্রাক্টেড ডেটাবেস (প্রতিনিধিত্বমূলক নমুনা)
+    // আপনি চাইলে আরও লাইন `routineData` অ্যারেতে যুক্ত করতে পারেন।
+    const routineData = [
+        { code: "25916", name: "স্ট্যাটিস্টিক্স", semester: "৩য়", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ক্যাডাস্ট্রাল", "ফটোগ্রামেটরি", "ল্যান্ড সার্ভেয়িং"] },
+        { code: "26121", name: "আর্কিটেকচারাল মডিউল-১", semester: "২য়", date: "06-08-2026", day: "বৃহস্পতিবার", time: "বিকাল 2:00", depts: ["আর্কিটেকচারাল"] },
+        { code: "26151", name: "আর্কিটেকচারাল মডিউল-৪", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["আর্কিটেকচারাল"] },
+        { code: "26351", name: "কমার্শিয়াল ইঞ্জিনিয়ারিং অপারেশন-৩", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["কমার্শিয়াল"] },
+        { code: "26451", name: "ফাউন্ডেশন ইঞ্জিনিয়ারিং", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["কন্সট্রাকশন", "সিভিল", "সিভিল(উড)"] },
+        { code: "26751", name: "কনজারভেশন অব ইলেকট্রিক্যাল পাওয়ার", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ইলেকট্রনিক্স", "ইলেকট্রিক্যাল", "টেলিকমিউনিকেশন"] },
+        { code: "26951", name: "ফুড মাইক্রোবায়োলজি-২", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ফুড"] },
+        { code: "27051", name: "ফ্লুইড মেকানিক্স অ্যান্ড মেশিনারি", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["অটোমোবাইল", "আরএইচএস", "পাওয়ার", "মেকানিক্স", "মেকানিক্যাল"] },
+        { code: "27651", name: "হোয়াইট ওয়্যারস", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["সিরামিক"] },
+        { code: "27751", name: "গ্লাস কোটিং ফার্নেস", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["গ্লাস"] },
+        { code: "27951", name: "মেরিন অক্সিলিয়ারি সিস্টেমস", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["মেরিন", "শিপবিল্ডিং"] },
+        { code: "28251", name: "গ্যাস টারবাইন ইঞ্জিন স্টার্টিং অ্যান্ড রানিং", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["এয়ারোস্পেস"] },
+        { code: "28351", name: "টারবাইন ইঞ্জিন প্রিন্সিপালস অ্যান্ড কন্সট্রাকশন", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["এভিয়নিক্স"] },
+        { code: "28551", name: "এমবেডেড ডেভেলপমেন্ট ইউজিং জাভা", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["কম্পিউটার সায়েন্স"] },
+        { code: "28651", name: "মেডিক্যাল ওয়্যারলেস অ্যান্ড ইমেজিং ইকুইপমেন্ট", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ইলেকট্রোমেডিক্যাল"] },
+        { code: "29063", name: "এনভায়রনমেন্টাল অডিটিং", semester: "৬ষ্ঠ", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["এনভায়রনমেন্টাল"] },
+        { code: "29551", name: "কেক্স অ্যান্ড ক্যান প্রিন্টিং", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["প্রিন্টিং"] },
+        { code: "29651", name: "অ্যাডভান্সড আর্টিং মডিউল", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["গ্রাফিক্স ডিজাইন"] },
+        { code: "29851", name: "ফুটওয়্যার ম্যানুফ্যাকচারিং-৩", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ফুটওয়্যার"] },
+        { code: "25913", name: "কেমিস্ট্রি", semester: "১ম", date: "08-08-2026", day: "শনিবার", time: "সকাল 10:00", depts: ["আর্কিটেকচারাল", "এনভায়রনমেন্টাল", "কন্সট্রাকশন", "কমার্শিয়াল", "গ্লাস", "ফুটওয়্যার", "ফুড", "সার্ভেয়িং", "সিভিল", "সিরামিক"] },
+        { code: "26141", name: "আর্কিটেকচারাল মডিউল-৩", semester: "৪র্থ", date: "08-08-2026", day: "শনিবার", time: "বিকাল 2:00", depts: ["আর্কিটেকচারাল"] },
+        { code: "26341", name: "কমার্শিয়াল ইঞ্জিনিয়ারিং অপারেশন-২", semester: "৪র্থ", date: "08-08-2026", day: "শনিবার", time: "বিকাল 2:00", depts: ["কমার্শিয়াল"] },
+        { code: "26441", name: "কন্সট্রাকশন প্রসেস-২", semester: "৪র্থ", date: "08-08-2026", day: "শনিবার", time: "বিকাল 2:00", depts: ["সিভিল", "সিভিল(উড)", "এনভায়রনমেন্টাল"] },
+        { code: "26711", name: "বেসিক ইলেকট্রিসিটি", semester: "১ম", date: "02-09-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["অটোমোবাইল", "আর্কিটেকচারাল", "ইলেকট্রনিক্স", "ইলেকট্রোমেডিক্যাল", "ইলেকট্রিক্যাল", "এনভায়রনমেন্টাল", "এভিয়নিক্স", "এয়ারোস্পেস", "কন্সট্রাকশন", "কম্পিউটার সায়েন্স", "ক্যাডাস্ট্রাল", "গ্লাস", "জিওইনফরমেটিক্স", "টেলিকমিউনিকেশন", "ফুটওয়্যার", "ফটোগ্রামেটরি", "মেকানিক্স", "মেরিন", "ল্যান্ড সার্ভেয়িং", "শিপবিল্ডিং", "সার্ভেয়িং", "সিভিল", "সিরামিক"] },
+        { code: "25712", name: "ইংরেজি-১", semester: "১ম", date: "09-08-2026", day: "রবিবার", time: "বিকাল 2:00", depts: ["সকল টেকনোলজি"] },
+        { code: "25811", name: "সোশ্যাল সায়েন্স", semester: "১ম", date: "11-08-2026", day: "মঙ্গলবার", time: "বিকাল 2:00", depts: ["অটোমোবাইল", "আরএইচএস", "এনভায়রনমেন্টাল", "কন্সট্রাকশন", "ক্যাডাস্ট্রাল", "গ্রাফিক্স ডিজাইন", "জিওইনফরমেটিক্স", "প্রিন্টিং", "পাওয়ার", "পরিমাল", "ফুটওয়্যার", "ফটোগ্রামেটরি", "ল্যান্ড সার্ভেয়িং", "শিপবিল্ডিং", "সার্ভেয়িং", "সিভিল", "সিরামিক"] },
+        { code: "29821", name: "ফুটওয়্যার ইঞ্জিনিয়ারিং ফান্ডামেন্টালস", semester: "২য়", date: "13-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ফুটওয়্যার"] },
+        { code: "26131", name: "আর্কিটেকচারাল মডিউল-২", semester: "৩য়", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["আর্কিটেকচারাল"] },
+        { code: "26271", name: "অটোমোটিভ ইলেকট্রিক্যাল, ইলেকট্রনিক্স অ্যান্ড অটোমেশন", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["অটোমোবাইল"] },
+        { code: "26372", name: "কমার্শিয়াল প্রসেস ইন্ডাস্ট্রি-IV", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["কমার্শিয়াল"] },
+        { code: "26474", name: "ডিজাইন অব স্ট্রাকচার-II", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["কন্সট্রাকশন", "সিভিল", "সার্ভেয়িং"] },
+        { code: "26871", name: "মাইক্রোওয়েভ রাডার অ্যান্ড নেভিগেশন এইডস", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["ইলেকট্রনিক্স"] },
+        { code: "26972", name: "ফুড প্রসেস ইন্ডাস্ট্রি-II", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["ফুড"] },
+        { code: "27073", name: "হিট ম্যানেজমেন্ট অব মটর", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["পাওয়ার", "মেকানিক্যাল"] },
+        { code: "28571", name: "ডিজিটাল মার্কেন্টিং টেকনিক", semester: "৭ম", date: "09-08-2026", day: "রবিবার", time: "সকাল 10:00", depts: ["কম্পিউটার সায়েন্স"] },
+        { code: "28841", name: "কন্সট্রাকশন কিমোলজি-২", semester: "৪র্থ", date: "08-08-2026", day: "শনিবার", time: "বিকাল 2:00", depts: ["কন্সট্রাকশন"] },
+        { code: "29051", name: "ওয়াটার অ্যান্ড ওয়েস্ট ওয়াটার ইঞ্জিনিয়ারিং", semester: "৫ম", date: "16-08-2026", day: "রবিবার", time: "বিকাল 2:00", depts: ["এনভায়রনমেন্টাল"] },
+        { code: "25721", name: "বাংলা-২", semester: "সকল", date: "17-08-2026", day: "সোমবার", time: "সকাল 10:00", depts: ["সকল টেকনোলজি"] }
+    ];
+
+    // 🔹 DOM Elements
+    const searchInput = document.getElementById('searchInput');
+    const semesterFilter = document.getElementById('semesterFilter');
+    const deptFilter = document.getElementById('deptFilter');
+    const tableBody = document.getElementById('tableBody');
+    const noResult = document.getElementById('noResult');
+    const stats = document.getElementById('stats');
+
+    // 🔹 ফিল্টার অপশন পপুলেট করা
+    function populateFilters() {
+        const semesters = new Set();
+        const departments = new Set();
+
+        routineData.forEach(item => {
+            if (item.semester !== 'সকল') semesters.add(item.semester);
+            item.depts.forEach(dept => {
+                if (dept !== 'সকল টেকনোলজি') departments.add(dept);
+            });
+        });
+
+        // সেমিস্টার সর্ট করা
+        const semOrder = ["১ম", "২য়", "৩য়", "৪র্থ", "৫ম", "৬ষ্ঠ", "৭ম", "৮ম"];
+        [...semesters].sort((a, b) => semOrder.indexOf(a) - semOrder.indexOf(b)).forEach(sem => {
+            const opt = document.createElement('option');
+            opt.value = sem;
+            opt.textContent = sem + ' পর্ব';
+            semesterFilter.appendChild(opt);
+        });
+
+        // ডিপার্টমেন্ট সর্ট করে যোগ করা
+        [...departments].sort((a, b) => a.localeCompare(b, 'bn')).forEach(dept => {
+            const opt = document.createElement('option');
+            opt.value = dept;
+            opt.textContent = dept;
+            deptFilter.appendChild(opt);
+        });
+    }
+
+    // 🔹 টেবিল রেন্ডার ও ফিল্টার লজিক
+    function filterAndRender() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedSem = semesterFilter.value;
+        const selectedDept = deptFilter.value;
+
+        const filteredData = routineData.filter(item => {
+            const matchesSearch = !searchTerm || 
+                                  item.name.toLowerCase().includes(searchTerm) || 
+                                  item.code.includes(searchTerm);
+            const matchesSem = !selectedSem || item.semester === selectedSem;
+            const matchesDept = !selectedDept || item.depts.includes(selectedDept);
+
+            return matchesSearch && matchesSem && matchesDept;
+        });
+
+        tableBody.innerHTML = '';
+        
+        if (filteredData.length === 0) {
+            noResult.style.display = 'block';
+            stats.textContent = '';
+            return;
+        }
+
+        noResult.style.display = 'none';
+        stats.textContent = `মোট ${filteredData.length} টি ফলাফল পাওয়া গেছে`;
+
+        filteredData.forEach(item => {
+            const row = document.createElement('tr');
+            
+            const deptBadges = item.depts.map(d => `<span class="badge">${d}</span>`).join('');
+            
+            row.innerHTML = `
+                <td>${item.date}<br><small style="color:var(--text-light)">${item.day}</small></td>
+                <td><strong>${item.time}</strong></td>
+                <td><code style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">${item.code}</code></td>
+                <td><strong>${item.name}</strong></td>
+                <td>${item.semester}</td>
+                <td>${deptBadges}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // 🔹 ইভেন্ট লিসেনার
+    searchInput.addEventListener('input', filterAndRender);
+    semesterFilter.addEventListener('change', filterAndRender);
+    deptFilter.addEventListener('change', filterAndRender);
+
+    // 🔹 প্রাথমিক লোড
+    populateFilters();
+    filterAndRender();
+</script>
+
+</body>
+</html>
