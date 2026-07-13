@@ -1,366 +1,735 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ডিপ্লোমা পরীক্ষার রুটিন ফাইন্ডার</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0066cc;
-            --primary-hover: #004c99;
-            --bg: #f4f7f9;
-            --card-bg: #ffffff;
-            --text: #1a202c;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
-            --warning: #f59e0b;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Noto Sans Bengali', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            padding: 24px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        header h1 {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-        }
-
-        header p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 24px;
-            padding: 16px;
-            background: #f8fafc;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .control-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .control-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: border-color 0.2s;
-        }
-
-        input[type="text"]:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,102,204,0.15);
-        }
-
-        .table-container {
-            overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            min-width: 800px;
-        }
-
-        thead {
-            background: var(--primary);
-            color: white;
-        }
-
-        th, td {
-            padding: 14px 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            font-weight: 600;
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-
-        tbody tr:hover {
-            background-color: #f1f5f9;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            background: #e0f2fe;
-            color: #0369a1;
-            margin-right: 6px;
-            margin-bottom: 4px;
-        }
-
-        #noResult {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-light);
-            font-size: 1.1rem;
-            display: none;
-        }
-
-        .stats {
-            margin-top: 12px;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            text-align: right;
-        }
-
-        @media (max-width: 768px) {
-            .controls {
-                flex-direction: column;
-            }
-            .control-group {
-                width: 100%;
-            }
-            th, td {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ডিপ্লোমা পরীক্ষার রুটিন খুঁজুন (২০২২ প্রবিধান)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    .container { max-width: 1280px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 25px; }
+    header h1 { font-size: 1.8rem; color: var(--primary); margin-bottom: 5px; }
+    header p { color: var(--text-light); font-size: 0.95rem; }
+    .controls {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .input-group label { font-weight: 500; font-size: 0.9rem; color: var(--text); }
+    .input-group input, .input-group select {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .btn-group { display: flex; gap: 10px; align-items: flex-end; }
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-search { background: var(--primary); color: white; }
+    .btn-search:hover { background: var(--primary-hover); }
+    .btn-clear { background: var(--border); color: var(--text); }
+    .btn-clear:hover { background: #cbd5e1; }
+    .table-wrapper {
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 850px; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    th { background: #f1f5f9; font-weight: 600; color: var(--text); position: sticky; top: 0; }
+    tr:hover { background: #f8fafc; }
+    .no-data { text-align: center; color: var(--text-light); padding: 30px !important; font-style: italic; }
+    .dept-tag {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin: 2px;
+    }
+    footer { text-align: center; margin-top: 30px; color: var(--text-light); font-size: 0.85rem; }
+    @media (max-width: 768px) {
+      .controls { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.5rem; }
+      th, td { padding: 10px; font-size: 0.9rem; }
+    }
+  </style>
 </head>
 <body>
-
-<div class="container">
+  <div class="container">
     <header>
-        <h1>📅 ডিপ্লোমা ইঞ্জিনিয়ারিং পরীক্ষার রুটিন ফাইন্ডার</h1>
-        <p>বাংলাদেশ কারিগরি শিক্ষা বোর্ড | আগস্ট - সেপ্টেম্বর ২০২৬</p>
+      <h1>📅 ডিপ্লোমা পরীক্ষার রুটিন খুঁজুন (২০২২ প্রবিধান)</h1>
+      <p>বিষয়ের নাম, কোড, পর্ব বা টেকনোলজি দিয়ে সহজেই রুটিন খুঁজুন | আগস্ট-সেপ্টেম্বর ২০২৬</p>
     </header>
 
     <div class="controls">
-        <div class="control-group">
-            <label for="searchInput">🔍 বিষয়ের নাম বা কোড দিয়ে খুঁজুন</label>
-            <input type="text" id="searchInput" placeholder="যেমন: স্ট্যাটিস্টিক্স, 26121, জাভা...">
-        </div>
-        <div class="control-group">
-            <label for="semesterFilter">🎓 সেমিস্টার অনুযায়ী ফিল্টার</label>
-            <select id="semesterFilter">
-                <option value="">সকল সেমিস্টার</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label for="deptFilter">🏛️ বিভাগ/টেকনোলজি অনুযায়ী ফিল্টার</label>
-            <select id="deptFilter">
-                <option value="">সকল বিভাগ</option>
-            </select>
-        </div>
+      <div class="input-group">
+        <label for="nameSearch">বিষয়ের নাম</label>
+        <input type="text" id="nameSearch" placeholder="যেমন: পাইথন, কেমিস্ট্রি...">
+      </div>
+      <div class="input-group">
+        <label for="codeSearch">বিষয় কোড</label>
+        <input type="text" id="codeSearch" placeholder="যেমন: ২৮৫২১, ২৫৯১৩...">
+      </div>
+      <div class="input-group">
+        <label for="semesterFilter">পর্ব (Semester)</label>
+        <select id="semesterFilter"><option value="">সকল পর্ব</option></select>
+      </div>
+      <div class="input-group">
+        <label for="deptFilter">টেকনোলজি (Department)</label>
+        <select id="deptFilter"><option value="">সকল টেকনোলজি</option></select>
+      </div>
+      <div class="btn-group">
+        <button class="btn-clear" id="clearBtn">🔄 মুছুন</button>
+      </div>
     </div>
 
-    <div class="table-container">
-        <table id="routineTable">
-            <thead>
-                <tr>
-                    <th>তারিখ ও বার</th>
-                    <th>সময়</th>
-                    <th>বিষয় কোড</th>
-                    <th>বিষয়ের নাম</th>
-                    <th>সেমিস্টার</th>
-                    <th>বিভাগসমূহ</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- ডেটা জাভাস্ক্রিপ্ট দ্বারা লোড হবে -->
-            </tbody>
-        </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>তারিখ</th>
+            <th>বার</th>
+            <th>সময়</th>
+            <th>পর্ব</th>
+            <th>বিষয় কোড</th>
+            <th>বিষয়ের নাম</th>
+            <th>টেকনোলজি</th>
+          </tr>
+        </thead>
+        <tbody id="routineBody"></tbody>
+      </table>
     </div>
-    <p id="noResult">⚠️ আপনার সার্চ বা ফিল্টারের সাথে মিলে এমন কোনো রুটিন পাওয়া যায়নি।</p>
-    <div class="stats" id="stats"></div>
-</div>
 
-<script>
-    // 🔹 পিডিএফ থেকে এক্সট্রাক্টেড ডেটাবেস (প্রতিনিধিত্বমূলক নমুনা)
-    // আপনি চাইলে আরও লাইন `routineData` অ্যারেতে যুক্ত করতে পারেন।
+    <footer>
+      <p>© ২০২৬ বাংলাদেশ কারিগরি শিক্ষা বোর্ড (BTEB) রুটিন অনুসারে তৈরি | ডেটা পিডিএফ থেকে সংগৃহীত ও পরিষ্কৃত</p>
+    </footer>
+  </div>
+
+  <script>
+    // 📊 সম্পূর্ণ রুটিন ডেটা (পিডিএফ থেকে সংগৃহীত ও OCR ত্রুটি সংশোধিত)
     const routineData = [
-        { code: "25916", name: "স্ট্যাটিস্টিক্স", semester: "৩য়", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ক্যাডাস্ট্রাল", "ফটোগ্রামেটরি", "ল্যান্ড সার্ভেয়িং"] },
-        { code: "26121", name: "আর্কিটেকচারাল মডিউল-১", semester: "২য়", date: "06-08-2026", day: "বৃহস্পতিবার", time: "বিকাল 2:00", depts: ["আর্কিটেকচারাল"] },
-        { code: "26151", name: "আর্কিটেকচারাল মডিউল-৪", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["আর্কিটেকচারাল"] },
-        { code: "26351", name: "কমার্শিয়াল ইঞ্জিনিয়ারিং অপারেশন-৩", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["কমার্শিয়াল"] },
-        { code: "26451", name: "ফাউন্ডেশন ইঞ্জিনিয়ারিং", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["কন্সট্রাকশন", "সিভিল", "সিভিল(উড)"] },
-        { code: "26751", name: "কনজারভেশন অব ইলেকট্রিক্যাল পাওয়ার", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ইলেকট্রনিক্স", "ইলেকট্রিক্যাল", "টেলিকমিউনিকেশন"] },
-        { code: "26951", name: "ফুড মাইক্রোবায়োলজি-২", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ফুড"] },
-        { code: "27051", name: "ফ্লুইড মেকানিক্স অ্যান্ড মেশিনারি", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["অটোমোবাইল", "আরএইচএস", "পাওয়ার", "মেকানিক্স", "মেকানিক্যাল"] },
-        { code: "27651", name: "হোয়াইট ওয়্যারস", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["সিরামিক"] },
-        { code: "27751", name: "গ্লাস কোটিং ফার্নেস", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["গ্লাস"] },
-        { code: "27951", name: "মেরিন অক্সিলিয়ারি সিস্টেমস", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["মেরিন", "শিপবিল্ডিং"] },
-        { code: "28251", name: "গ্যাস টারবাইন ইঞ্জিন স্টার্টিং অ্যান্ড রানিং", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["এয়ারোস্পেস"] },
-        { code: "28351", name: "টারবাইন ইঞ্জিন প্রিন্সিপালস অ্যান্ড কন্সট্রাকশন", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["এভিয়নিক্স"] },
-        { code: "28551", name: "এমবেডেড ডেভেলপমেন্ট ইউজিং জাভা", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["কম্পিউটার সায়েন্স"] },
-        { code: "28651", name: "মেডিক্যাল ওয়্যারলেস অ্যান্ড ইমেজিং ইকুইপমেন্ট", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ইলেকট্রোমেডিক্যাল"] },
-        { code: "29063", name: "এনভায়রনমেন্টাল অডিটিং", semester: "৬ষ্ঠ", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["এনভায়রনমেন্টাল"] },
-        { code: "29551", name: "কেক্স অ্যান্ড ক্যান প্রিন্টিং", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["প্রিন্টিং"] },
-        { code: "29651", name: "অ্যাডভান্সড আর্টিং মডিউল", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["গ্রাফিক্স ডিজাইন"] },
-        { code: "29851", name: "ফুটওয়্যার ম্যানুফ্যাকচারিং-৩", semester: "৫ম", date: "06-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ফুটওয়্যার"] },
-        { code: "25913", name: "কেমিস্ট্রি", semester: "১ম", date: "08-08-2026", day: "শনিবার", time: "সকাল 10:00", depts: ["আর্কিটেকচারাল", "এনভায়রনমেন্টাল", "কন্সট্রাকশন", "কমার্শিয়াল", "গ্লাস", "ফুটওয়্যার", "ফুড", "সার্ভেয়িং", "সিভিল", "সিরামিক"] },
-        { code: "26141", name: "আর্কিটেকচারাল মডিউল-৩", semester: "৪র্থ", date: "08-08-2026", day: "শনিবার", time: "বিকাল 2:00", depts: ["আর্কিটেকচারাল"] },
-        { code: "26341", name: "কমার্শিয়াল ইঞ্জিনিয়ারিং অপারেশন-২", semester: "৪র্থ", date: "08-08-2026", day: "শনিবার", time: "বিকাল 2:00", depts: ["কমার্শিয়াল"] },
-        { code: "26441", name: "কন্সট্রাকশন প্রসেস-২", semester: "৪র্থ", date: "08-08-2026", day: "শনিবার", time: "বিকাল 2:00", depts: ["সিভিল", "সিভিল(উড)", "এনভায়রনমেন্টাল"] },
-        { code: "26711", name: "বেসিক ইলেকট্রিসিটি", semester: "১ম", date: "02-09-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["অটোমোবাইল", "আর্কিটেকচারাল", "ইলেকট্রনিক্স", "ইলেকট্রোমেডিক্যাল", "ইলেকট্রিক্যাল", "এনভায়রনমেন্টাল", "এভিয়নিক্স", "এয়ারোস্পেস", "কন্সট্রাকশন", "কম্পিউটার সায়েন্স", "ক্যাডাস্ট্রাল", "গ্লাস", "জিওইনফরমেটিক্স", "টেলিকমিউনিকেশন", "ফুটওয়্যার", "ফটোগ্রামেটরি", "মেকানিক্স", "মেরিন", "ল্যান্ড সার্ভেয়িং", "শিপবিল্ডিং", "সার্ভেয়িং", "সিভিল", "সিরামিক"] },
-        { code: "25712", name: "ইংরেজি-১", semester: "১ম", date: "09-08-2026", day: "রবিবার", time: "বিকাল 2:00", depts: ["সকল টেকনোলজি"] },
-        { code: "25811", name: "সোশ্যাল সায়েন্স", semester: "১ম", date: "11-08-2026", day: "মঙ্গলবার", time: "বিকাল 2:00", depts: ["অটোমোবাইল", "আরএইচএস", "এনভায়রনমেন্টাল", "কন্সট্রাকশন", "ক্যাডাস্ট্রাল", "গ্রাফিক্স ডিজাইন", "জিওইনফরমেটিক্স", "প্রিন্টিং", "পাওয়ার", "পরিমাল", "ফুটওয়্যার", "ফটোগ্রামেটরি", "ল্যান্ড সার্ভেয়িং", "শিপবিল্ডিং", "সার্ভেয়িং", "সিভিল", "সিরামিক"] },
-        { code: "29821", name: "ফুটওয়্যার ইঞ্জিনিয়ারিং ফান্ডামেন্টালস", semester: "২য়", date: "13-08-2026", day: "বৃহস্পতিবার", time: "সকাল 10:00", depts: ["ফুটওয়্যার"] },
-        { code: "26131", name: "আর্কিটেকচারাল মডিউল-২", semester: "৩য়", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["আর্কিটেকচারাল"] },
-        { code: "26271", name: "অটোমোটিভ ইলেকট্রিক্যাল, ইলেকট্রনিক্স অ্যান্ড অটোমেশন", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["অটোমোবাইল"] },
-        { code: "26372", name: "কমার্শিয়াল প্রসেস ইন্ডাস্ট্রি-IV", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["কমার্শিয়াল"] },
-        { code: "26474", name: "ডিজাইন অব স্ট্রাকচার-II", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["কন্সট্রাকশন", "সিভিল", "সার্ভেয়িং"] },
-        { code: "26871", name: "মাইক্রোওয়েভ রাডার অ্যান্ড নেভিগেশন এইডস", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["ইলেকট্রনিক্স"] },
-        { code: "26972", name: "ফুড প্রসেস ইন্ডাস্ট্রি-II", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["ফুড"] },
-        { code: "27073", name: "হিট ম্যানেজমেন্ট অব মটর", semester: "৭ম", date: "19-08-2026", day: "বুধবার", time: "সকাল 10:00", depts: ["পাওয়ার", "মেকানিক্যাল"] },
-        { code: "28571", name: "ডিজিটাল মার্কেন্টিং টেকনিক", semester: "৭ম", date: "09-08-2026", day: "রবিবার", time: "সকাল 10:00", depts: ["কম্পিউটার সায়েন্স"] },
-        { code: "28841", name: "কন্সট্রাকশন কিমোলজি-২", semester: "৪র্থ", date: "08-08-2026", day: "শনিবার", time: "বিকাল 2:00", depts: ["কন্সট্রাকশন"] },
-        { code: "29051", name: "ওয়াটার অ্যান্ড ওয়েস্ট ওয়াটার ইঞ্জিনিয়ারিং", semester: "৫ম", date: "16-08-2026", day: "রবিবার", time: "বিকাল 2:00", depts: ["এনভায়রনমেন্টাল"] },
-        { code: "25721", name: "বাংলা-২", semester: "সকল", date: "17-08-2026", day: "সোমবার", time: "সকাল 10:00", depts: ["সকল টেকনোলজি"] }
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৫৯১৬",name:"স্ট্যাটিস্টিক্স",departments:["ক্যাডাস্ট্রাল","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","সার্ভেয়িং"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬১৫১",name:"আর্কিটেকচারাল ডিজাইন-৪",departments:["আর্কিটেকচার"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৩৫১",name:"কেমিক্যাল ইঞ্জিনিয়ারিং অপারেশন-৩",departments:["কেমিক্যাল"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৪৫১",name:"ফাউন্ডেশন ইঞ্জিনিয়ারিং",departments:["কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৭৫১",name:"জেনারেশন অব ইলেকট্রিক্যাল পাওয়ার",departments:["ইলেকট্রনিক্স","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৯৫১",name:"ফুড মাইক্রোবায়োলজি-২",departments:["ফুড"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭০৫১",name:"ফ্লুইড মেকানিক্স অ্যান্ড মেশিনারি",departments:["অটোমোবাইল","আরএস","পাওয়ার","মেকানিক্স","মেকানিক্যাল"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৬৫১",name:"হেভি ওয়্যারস্",departments:["সিরামিক"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৭৫১",name:"গ্লাস মেলটিং ফার্নেস্",departments:["গ্লাস"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৯৫১",name:"মেরিন অক্সিলিয়ারি সিস্টেমস্",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮২৫১",name:"গ্যাস টারবাইন ইঞ্জিন স্টার্টিং অ্যান্ড মেইনটেনিং",departments:["এয়ারোস্পেস"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৩৫১",name:"টারবাইন ইঞ্জিন প্রিন্সিপালস্ অ্যান্ড কন্সট্রাকশন",departments:["এভিওনিক্স"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৫৫১",name:"অ্যাপ্লিকেশন ডেভেলপমেন্ট ইউজিং জাভা",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৬৫১",name:"ক্লিনিক্যাল অ্যান্ড ইমেজিং ইকুইপমেন্ট",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯০৬৩",name:"এনভায়রনমেন্টাল অডিটিং",departments:["এনভায়রনমেন্টাল"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৫৫১",name:"সেক্সা অ্যান্ড স্যান প্রিন্টিং",departments:["প্রিন্টিং"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৬৫১",name:"এডভান্সড প্রিন্টিং ডিজাইন",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৮৫১",name:"ফার্নিচার ম্যানুফ্যাকচারিং-৩",departments:["ফার্নিচার"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"২য় পর্ব",code:"২৬১২১",name:"আর্কিটেকচারাল ডিজাইন-১",departments:["আর্কিটেকচার"]},
+      {date:"০৬-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৬৮১১",name:"বেসিক ইলেকট্রনিক্স",departments:["ইলেকট্রনিক্স","প্যারামেডিক্স","ফার্নিচার","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","এনভায়রনমেন্টাল","কন্সট্রাকশন","কম্পিউটার সায়েন্স","ক্যাডাস্ট্রাল","কেমিক্যাল","গ্লাস","বায়োইনফরমেটিক্স","টেলিকমিউনিকেশন","ফটোগ্রামমেট্রি","মেকানিক্স","মেরিন","ল্যান্ড সার্ভেয়িং","শিপবিল্ডিং","সার্ভেয়িং","সিভিল","সিভিল(উড)","সিরামিক","অটোমোবাইল","আরএস","এভিওনিক্স","এয়ারোস্পেস","গ্রাফিক ডিজাইন","প্রিন্টিং","পাওয়ার","ফুড"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"১ম পর্ব",code:"২৫৯১৩",name:"কেমিস্ট্রি",departments:["আর্কিটেকচার","এনভায়রনমেন্টাল","কন্সট্রাকশন","কেমিক্যাল","গ্লাস","ফার্নিচার","ফুড","সার্ভেয়িং","সিভিল","সিভিল(উড)","সিরামিক","অটোমোবাইল","আরএস","ইলেকট্রনিক্স","এভিওনিক্স","এয়ারোস্পেস","কম্পিউটার সায়েন্স","পাওয়ার","মেকানিক্যাল","মেরিন","শিপবিল্ডিং","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","ক্যাডাস্ট্রাল","গ্রাফিক ডিজাইন","টেলিকমিউনিকেশন","প্রিন্টিং","ফার্নিচার","ফটোগ্রামমেট্রি","মেকানিক্স","ল্যান্ড সার্ভেয়িং"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬১৪১",name:"আর্কিটেকচারাল ডিজাইন-৩",departments:["আর্কিটেকচার"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৩৪১",name:"কেমিক্যাল ইঞ্জিনিয়ারিং অপারেশন-২",departments:["কেমিক্যাল"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৪৪১",name:"কন্সট্রাকশন প্রসেস-২",departments:["সিভিল","সিভিল(উড)","এনভায়রনমেন্টাল"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৮৪৩",name:"নেটওয়ার্ক, ফিচারস্ অ্যান্ড ট্রান্সমিশন লাইন",departments:["ইলেকট্রনিক্স"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৯৪২",name:"ফুড প্রিজারভেশন-১",departments:["ফুড"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭০৪৪",name:"এসি মেকানিক্স",departments:["ইলেকট্রিক্যাল"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৭১৩১",name:"ইঞ্জিনিয়ারিং থার্মোডাইনামিক্স",departments:["আরএস","পাওয়ার","মেরিন","শিপবিল্ডিং","অটোমোবাইল","মেকানিক্স","মেকানিক্যাল"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৬৪৪",name:"রড অ্যান্ড ক্লে ফেব্রিকেশন-২",departments:["সিরামিক"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৭৪২",name:"গ্লাস ক্লাড অ্যান্ড ডাই-২",departments:["গ্লাস"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৮৪৩",name:"এডভান্সড সার্ভেয়িং-১",departments:["সার্ভেয়িং"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮২৪৩",name:"এয়ারক্রাফট্ হার্ডওয়্যার",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৫৪৪",name:"ওয়েব ডিজাইন অ্যান্ড ডেভেলপমেন্ট-১",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৬৪১",name:"ডেন্টাল ইকুইপমেন্ট",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৮৪১",name:"কন্সট্রাকশন মেথডলজি-২",departments:["কন্সট্রাকশন"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৪৪১",name:"ক্যাবল অ্যান্ড টিভি ইঞ্জিনিয়ারিং",departments:["টেলিকমিউনিকেশন"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৬৪৩",name:"ভিডিও অ্যান্ড সাউন্ড এডিটিং",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"০৮-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৮৪৫",name:"ফার্নিচার ডিজাইন-১",departments:["ফার্নিচার"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬১৭১",name:"আর্কিটেকচারাল প্রজেক্ট",departments:["আর্কিটেকচার"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৩৭১",name:"কেমিক্যাল ইঞ্জিনিয়ারিং অপারেশন-V",departments:["কেমিক্যাল"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৪৭৩",name:"ট্রান্সপোর্টেশন ইঞ্জিনিয়ারিং-II",departments:["কন্সট্রাকশন","সার্ভেয়িং","সিভিল","সিভিল(উড)"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৭৭১",name:"এসি মেশিন-২",departments:["ইলেকট্রোমেডিক্যাল","ইলেকট্রনিক্স","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৯৭১",name:"ফুড ইঞ্জিনিয়ারিং অপারেশন-II",departments:["ফুড"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭০৭১",name:"ডিজাইন অব মেশিন এলিমেন্টস",departments:["অটোমোবাইল","পাওয়ার","মেকানিক্স","মেকানিক্যাল"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭২৭১",name:"আরএস সিস্টেম অ্যানালাইসিস",departments:["আরএস"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৬৭১",name:"সিরামিক ইঞ্জিনিয়ারিং প্রজেক্ট",departments:["সিরামিক"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৭৭১",name:"গ্লাস প্রোডাক্টস-II",departments:["গ্লাস"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৮০৪২",name:"ওয়াল্ডিং",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮২৭১",name:"এভিয়েশন লজিস্টিক্স-নেটওয়ার্ক",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৫৭১",name:"ডিজিটাল মার্কেটিং টেকনিক",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯০৭১",name:"এনার্জি অ্যান্ড এনভায়রনমেন্টাল ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৬৭২",name:"প্যাকেজিং ডিজাইন-II",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৮৭২",name:"ইন্টারন্যাশনাল ট্রেড অ্যান্ড ফাইন্যান্স",departments:["ফার্নিচার"]},
+      {date:"০৯-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৫৭১২",name:"ইংরেজি-১",departments:["সকল টেকনোলজি"]},
+      {date:"১০-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৮৬১",name:"টিভি স্টুডিও অ্যান্ড ব্রডকাস্টিং",departments:["ইলেকট্রনিক্স"]},
+      {date:"১০-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৮৬২",name:"বিডিং ফ্যাসিলিটিজ অ্যান্ড ল",departments:["কন্সট্রাকশন"]},
+      {date:"১০-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৯৫৩",name:"মেরিন ফুয়েলস্ অ্যান্ড লুব্রিকেন্টস্",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"১০-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৫৮৫২",name:"ইন্ডাস্ট্রিয়াল ম্যানেজমেন্ট",departments:["অটোমোবাইল","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","এভিওনিক্স","এয়ারোস্পেস","কন্সট্রাকশন","কেমিক্যাল","গ্রাফিক ডিজাইন","গ্লাস","টেলিকমিউনিকেশন","প্রিন্টিং","পাওয়ার","ফার্নিচার","ফুড","মেকানিক্স","মেকানিক্যাল","সার্ভেয়িং","সিভিল","সিভিল(উড)","সিরামিক","আরএস","আর্কিটেকচার","এনভায়রনমেন্টাল","কম্পিউটার সায়েন্স","মেরিন","শিপবিল্ডিং"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬১৩৩",name:"ওয়ার্কিং ড্রয়িং-১",departments:["আর্কিটেকচার"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৪৩৩",name:"কন্সট্রাকশন প্রসেস-১",departments:["এনভায়রনমেন্টাল","সিভিল","সিভিল(উড)"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৭৩২",name:"ইলেকট্রিক্যাল অ্যাপ্লায়েন্সেস্",departments:["ইলেকট্রিক্যাল"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৮৩২",name:"পাওয়ার ইলেকট্রনিক্স",departments:["ইলেকট্রনিক্স"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"১ম পর্ব",code:"২৬৯১২",name:"ফুড সেফটি অ্যান্ড হাইজিন ম্যানেজমেন্ট",departments:["ফুড"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭৬৩৩",name:"সিরামিক প্ল্যান্টস্ অ্যান্ড ইকুইপমেন্ট",departments:["সিরামিক"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭৭৩৩",name:"প্রিপারেশন অব গ্লাস ক্লাড ম্যাটেরিয়ালস্",departments:["গ্লাস"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭৮৩৪",name:"জিওডেটিক সার্ভেয়িং",departments:["ক্যাডাস্ট্রাল","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","সার্ভেয়িং"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৯৭৫",name:"অ্যারেস্ট মহিলা",departments:["মেরিন"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৮৮৩১",name:"কন্সট্রাকশন মেথডলজি-১",departments:["কন্সট্রাকশন"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯২৬১",name:"মাইক্রোপ্রসেসর অ্যান্ড মাইক্রোকন্ট্রোলার অ্যাপ্লিকেশন্স",departments:["মেকানিক্স"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৯৪৩১",name:"টেলিকম ওয়ার্কশপ অ্যান্ড আউটসাইড প্ল্যান্ট",departments:["টেলিকমিউনিকেশন"]},
+      {date:"১১-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৫৮১১",name:"সোশ্যাল সায়েন্স",departments:["আরএস","এনভায়রনমেন্টাল","কন্সট্রাকশন","ক্যাডাস্ট্রাল","গ্রাফিক ডিজাইন","বায়োইনফরমেটিক্স","প্রিন্টিং","পাওয়ার","প্যারামেডিক্স","ফার্নিচার","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","শিপবিল্ডিং","সার্ভেয়িং","সিভিল","সিভিল(উড)","ইলেকট্রনিক্স","গ্লাস","টুরিজম","টেলিকমিউনিকেশন","অটোমোবাইল","ইলেকট্রোমেডিক্যাল","এভিওনিক্স","এয়ারোস্পেস","কম্পিউটার সায়েন্স","কেমিক্যাল","ফুড","মেকানিক্স","মেকানিক্যাল","মেরিন","ফার্নিচার","আর্কিটেকচার","ইলেকট্রিক্যাল","সিরামিক"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬১৫২",name:"হিস্ট্রি অব আর্কিটেকচার-২",departments:["আর্কিটেকচার"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৩৫২",name:"কেমিক্যাল প্রসেস ইন্ডাস্ট্রি-২",departments:["কেমিক্যাল"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৪৫২",name:"সিভিল কোড-২",departments:["কন্সট্রাকশন","সিভিল"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৫৫২",name:"উড ওয়ার্কিং মেশিন-১",departments:["সিভিল(উড)"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৮৬২",name:"মাইক্রোকন্ট্রোলার অ্যান্ড এমবেডেড সিস্টেম",departments:["ইলেকট্রনিক্স"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭০৫২",name:"মেকানিক্যাল এস্টিমেটিং অ্যান্ড কস্টিং",departments:["অটোমোবাইল","আরএস","মেকানিক্যাল"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭১৫২",name:"পাওয়ার প্ল্যান্ট ইঞ্জিনিয়ারিং",departments:["পাওয়ার","মেকানিক্স"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৬৫২",name:"হেভি ক্লে প্রোডাক্টস",departments:["সিরামিক"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৭৫২",name:"গ্লাস ফেব্রিকেশন-২",departments:["গ্লাস"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৮৫২",name:"হাইড্রলিক্স অ্যান্ড হাইড্রোলজি",departments:["সার্ভেয়িং"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮০৫৩",name:"শিপ কন্সট্রাকশন অ্যান্ড রিপেয়ার",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮২৫২",name:"এয়ারক্রাফট ল্যান্ডিং গিয়ার",departments:["এয়ারোস্পেস"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৩৫২",name:"এয়ারক্রাফট ইলেকট্রনিক্স ফান্ডামেন্টালস",departments:["এভিওনিক্স"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৫৫২",name:"ওয়েব ডিজাইন অ্যান্ড ডেভেলপমেন্ট-২",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৬৬১",name:"ডায়াগনস্টিক অ্যান্ড ল্যাবরেটরি ইকুইপমেন্ট",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯০৫২",name:"এনভায়রনমেন্টাল মাইক্রোবায়োলজি",departments:["এনভায়রনমেন্টাল"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৪৬২",name:"ওয়্যারলেস অ্যান্ড মোবাইল কমিউনিকেশন",departments:["টেলিকমিউনিকেশন"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৫৫২",name:"কালার প্রিন্টিং-১",departments:["প্রিন্টিং"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৯৮২১",name:"ফার্নিচার ইঞ্জিনিয়ারিং ফান্ডামেন্টালস্",departments:["ফার্নিচার"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬১৪৩",name:"ওয়ার্কিং ড্রয়িং-২",departments:["আর্কিটেকচার"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬২৬২",name:"সাসপেনশন, কিক, স্টিয়ারিং অ্যান্ড ট্রান্সমিশন সিস্টেম অব ভেহিকল",departments:["পাওয়ার","অটোমোবাইল"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৩৪৩",name:"অয়েল ফ্যাটস্ অ্যান্ড ওয়াক্সস",departments:["কেমিক্যাল"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৪৪৩",name:"সিভিল কোড-১",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৭৪১",name:"ইলেকট্রিক্যাল ইন্সটলেশন, ওয়্যারিং অ্যান্ড এস্টিমেটিং",departments:["ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৯৪১",name:"ফুড মাইক্রোবায়োলজি-১",departments:["ফুড"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭০৬৪",name:"অ্যাডভান্সড ওয়াল্ডিং-২",departments:["মেকানিক্যাল"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭২৬২",name:"আরএস প্ল্যান্ট ইনস্টলেশন মেইনটেন্যান্স অ্যান্ড অপারেশন",departments:["আরএস"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৬৪১",name:"সিরামিক কস্ট অ্যান্ড ক্যালকুলেশন",departments:["সিরামিক"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৭৪৩",name:"গ্লাস ফেব্রিকেশন-১",departments:["গ্লাস"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৮৪১",name:"এরিয়াল ফটোগ্রাফ অ্যান্ড ফটোগ্রামমেট্রি",departments:["সার্ভেয়িং"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮০৪১",name:"নেভাল আর্কিটেকচার",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮২৪১",name:"এয়ারক্রাফট ফুয়েল অ্যান্ড ফায়ার প্রোটেকশন সিস্টেম",departments:["এয়ারোস্পেস"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৩৪১",name:"এয়ারক্রাফট এসি পাওয়ার",departments:["এভিওনিক্স"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৫৪১",name:"জাভা প্রোগ্রামিং",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯২৪১",name:"ইলেকট্রিক্যাল সার্ভিসেস অ্যান্ড মেশিন",departments:["মেকানিক্স"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৫৪১",name:"স্ক্রিন প্রিন্টিং",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"১৩-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৮৪১",name:"ফার্নিচার ম্যানুফ্যাকচারিং-২",departments:["ফার্নিচার"]},
+      {date:"১৫-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"সকল পর্ব",code:"২৫৮৫৩",name:"ইনোভেশন অ্যান্ড এন্ট্রাপ্রেনারশিপ",departments:["সকল টেকনোলজি"]},
+      {date:"১৫-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৫৯১২",name:"ফিজিক্স-১",departments:["অটোমোবাইল","আরএস","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","এভিওনিক্স","এয়ারোস্পেস","কম্পিউটার সায়েন্স","ক্যাডাস্ট্রাল","গ্রাফিক ডিজাইন","বায়োইনফরমেটিক্স","টেলিকমিউনিকেশন","প্রিন্টিং","পাওয়ার","প্যারামেডিক্স","ফার্নিচার","ফটোগ্রামমেট্রি","মেকানিক্স","মেকানিক্যাল","মেরিন","ল্যান্ড সার্ভেয়িং","শিপবিল্ডিং","সার্ভেয়িং","আর্কিটেকচার","এনভায়রনমেন্টাল","কন্সট্রাকশন","কেমিক্যাল","গ্লাস","ফুড","সিভিল","সিভিল(উড)","সিরামিক"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬২৫২",name:"এডভান্স অটোমোটিভ মেকানিক্স অ্যান্ড ভেহিকল ড্রাইভিং",departments:["অটোমোবাইল"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৩৬১",name:"কেমিক্যাল ইঞ্জিনিয়ারিং অপারেশন-৪",departments:["কেমিক্যাল"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৪৩১",name:"স্ট্রাকচারাল মেকানিক্স",departments:["কন্সট্রাকশন","সিভিল","সিভিল(উড)","এনভায়রনমেন্টাল","সার্ভেয়িং","আর্কিটেকচার"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৮৫২",name:"ইলেকট্রনিক অ্যাপ্লায়েন্সেস্",departments:["ইলেকট্রনিক্স"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৬৯৪৪",name:"ফুড প্যাকেজিং",departments:["ফুড"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭০৩২",name:"মেশিন শপ প্র্যাকটিস্-২",departments:["মেকানিক্যাল","মেরিন","শিপবিল্ডিং","মেকানিক্স"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৭১৪১",name:"আইস ইঞ্জিন ডিটেইলস্",departments:["পাওয়ার"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭২৫১",name:"হিটিং, ভেন্টিলেশন অ্যান্ড এয়ার কন্ডিশনিং(এইচভিএসি)",departments:["আরএস"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৩৫৬",name:"এয়ারক্রাফট ডিজিটাল টেকনিক",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৫৬৩",name:"সেন্সর অ্যান্ড আইওটি সিস্টেম",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৮৬৪২",name:"অ্যানেসথেসিয়া অ্যান্ড রেসপিরেটরি ইকুইপমেন্ট",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৯৪৪২",name:"আইটি সাপোর্ট অ্যান্ড আইওটি বেসিকস্",departments:["টেলিকমিউনিকেশন"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৬৬৪",name:"ইমেজ ম্যানিপুলেশন",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৮৬৬",name:"অটোমেশন ইন ফার্নিচার ইন্ডাস্ট্রি",departments:["ফার্নিচার"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৯৬২",name:"মেরিন ইলেকট্রিক্যাল ইনস্টলেশন অ্যান্ড ইন্সট্রুমেন্টেশন",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯০৪১",name:"এনভায়রনমেন্টাল স্টাডিজ্",departments:["অটোমোবাইল","আরএস","এভিওনিক্স","এয়ারোস্পেস","কম্পিউটার সায়েন্স","গ্রাফিক ডিজাইন","গ্লাস","প্রিন্টিং","ফার্নিচার","মেকানিক্স","মেকানিক্যাল","কন্সট্রাকশন","সার্ভেয়িং","আর্কিটেকচার","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন","পাওয়ার","ফুড","সিভিল","সিভিল(উড)","সিরামিক","কেমিক্যাল"]},
+      {date:"১৬-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৯০৫১",name:"ওয়াটার অ্যান্ড ওয়েস্ট ওয়াটার ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"সকল পর্ব",code:"২৫৭২১",name:"বাংলা-২",departments:["সকল টেকনোলজি (প্যারামেডিক্স ব্যতীত)"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৬১৩৪",name:"পারস্পেক্টিভ",departments:["আর্কিটেকচার"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৬২১১",name:"অটোমোবাইল ফান্ডামেন্টালস্",departments:["অটোমোবাইল","আরএস","মেকানিক্যাল"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৬৩১২",name:"সেফটি ইন কেমিক্যাল ইন্ডাস্ট্রি",departments:["কেমিক্যাল"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৭ম পর্ব",code:"২৬৫৭২",name:"ফান্সি বার ফিটিং অ্যান্ড অ্যাসেম্বলি",departments:["সিভিল(উড)"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৬৭৩১",name:"ইলেকট্রিক্যাল সার্ভিসেস-২",departments:["ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৬৯৩২",name:"ফুড ইন্ডাস্ট্রিয়াল কেমিস্ট্রি",departments:["ফুড"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৭১১১",name:"পাওয়ার ইঞ্জিনিয়ারিং ফান্ডামেন্টালস্",departments:["পাওয়ার"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৭৮৩৩",name:"জিওগ্রাফি অব বাংলাদেশ",departments:["ক্যাডাস্ট্রাল","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","সার্ভেয়িং"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৭ম পর্ব",code:"২৭৯৭১",name:"লিডারশিপ অ্যান্ড প্রফেশনাল এথিক্স",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৮২৩২",name:"প্রিন্সিপাল অব গ্যাস টারবাইন ইঞ্জিন",departments:["এয়ারোস্পেস"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৮৩৩১",name:"এয়ারক্রাফট ডিসি পাওয়ার সিস্টেম",departments:["এভিওনিক্স"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৮৬৩",name:"স্টিল স্ট্রাকচারস্",departments:["কন্সট্রাকশন","সিভিল"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৭ম পর্ব",code:"২৯০৭৩",name:"হাইড্রোলজি অ্যান্ড অ্যাডাপ্টেবিলিটি",departments:["এনভায়রনমেন্টাল"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৭ম পর্ব",code:"২৯২৭৪",name:"রোবোটিক্স, ম্যানুফ্যাকচার অ্যান্ড প্রসেস ইঞ্জিনিয়ারিং",departments:["মেকানিক্স"]},
+      {date:"১৭-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৯৬৩২",name:"বেসিক ফটোগ্রাফ",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৩৫৩",name:"ওয়াটার ট্রিটমেন্ট টেকনোলজি",departments:["কেমিক্যাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৪৫৩",name:"সার্ভেয়িং-৩",departments:["কন্সট্রাকশন","সিভিল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৪৫৭",name:"ওয়াটার সাপ্লাই অ্যান্ড স্যানিটারি ইঞ্জিনিয়ারিং",departments:["আর্কিটেকচার"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৫৫৩",name:"উড কোড অ্যান্ড কোয়ার",departments:["সিভিল(উড)"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৭৫৩",name:"টেস্টিং অ্যান্ড মেইনটেন্যান্স অব ইলেকট্রিক্যাল ইকুইপমেন্টস্",departments:["ইলেকট্রিক্যাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৯৫৩",name:"ফুড বায়োকেমিস্ট্রি",departments:["ফুড"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭০৫৩",name:"অ্যাডভান্সড ওয়াল্ডিং-১",departments:["অটোমোবাইল","পাওয়ার","মেকানিক্যাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৭২৪১",name:"সার্ভিস অ্যান্ড ইলেকট্রিক্যাল মেশিন ইন আরএস",departments:["আরএস"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৬৫৩",name:"সিরামিক ইন্সট্রুমেন্টেশন অ্যান্ড প্রসেস কন্ট্রোল",departments:["সিরামিক"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৭৫৩",name:"সিরামিক ম্যানুফ্যাকচারিং-১",departments:["গ্লাস"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৮৫৩",name:"অ্যাডভান্সড সার্ভেয়িং-২",departments:["সার্ভেয়িং"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮২৫৩",name:"এয়ারকন্ডিশনিং অ্যান্ড প্রেসারাইজেশন সিস্টেম",departments:["এয়ারোস্পেস"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৩৫৩",name:"এয়ারক্রাফট সিস্টেম-২",departments:["এভিওনিক্স"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৫৫৩",name:"কম্পিউটার আর্কিটেকচার অ্যান্ড মাইক্রোপ্রসেসর",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৬৫৩",name:"ফিজিওথেরাপি অ্যান্ড রিহ্যাবিলিটেশন ডিভাইসেস",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৬৫৪",name:"বায়ো-মেডিক্যাল ইন্সট্রুমেন্টস্",departments:["ইলেকট্রনিক্স"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯০৫৩",name:"জিওগ্রাফিক ইনফরমেশন সিস্টেম (জিআইএস) অ্যান্ড রিমোট সেন্সিং",departments:["এনভায়রনমেন্টাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯২৫১",name:"প্রোগ্রামেবল লজিক কন্ট্রোলার",departments:["মেকানিক্স"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৪৫১",name:"মাল্টিমিডিয়া অ্যান্ড ওয়েবপেজ ডিজাইন",departments:["টেলিকমিউনিকেশন"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৫৫৩",name:"প্রিন্টিং কোয়ালিটি কন্ট্রোল",departments:["প্রিন্টিং"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৬৫৩",name:"ডিজাইন অ্যান্ড এডিটিং",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৮৫৩",name:"ফিজিক্যাল কস্টিং-১",departments:["ফার্নিচার"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৩৪২",name:"কেমিক্যাল প্রসেস ইন্ডাস্ট্রি-১",departments:["কেমিক্যাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৪৪৬",name:"হাইড্রোলজি",departments:["কন্সট্রাকশন","সিভিল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৫৪১",name:"উড ইঞ্জিনিয়ারিং মেকানিক্স",departments:["সিভিল(উড)"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৮৪২",name:"কমিউনিকেশন ইঞ্জিনিয়ারিং",departments:["ইলেকট্রনিক্স","ইলেকট্রিক্যাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৯৪৫",name:"ডেইরি প্রোডাক্টস্",departments:["ফুড"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭০৪৩",name:"মেটালার্জি",departments:["অটোমোবাইল","পাওয়ার","মেকানিক্যাল","মেরিন","শিপবিল্ডিং","আরএস"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৬৪৫",name:"সিরামিক বডি প্রিপারেশন",departments:["সিরামিক"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৭ম পর্ব",code:"২৭৭৭৫",name:"ফান্স ব ডিজাইন অ্যান্ড কন্সট্রাকশন",departments:["গ্লাস"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৮৪৪",name:"ডিজিটাল কার্টোগ্রাফ",departments:["সার্ভেয়িং"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮২৪৫",name:"এয়ারক্রাফট গ্যাস টারবাইন ইঞ্জিন কন্সট্রাকশন অ্যান্ড সিস্টেমস্",departments:["এয়ারোস্পেস"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৩৪৪",name:"এয়ারক্রাফট সিস্টেম-১",departments:["এভিওনিক্স"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৫৪৩",name:"কম্পিউটার পেরিফেরালস্ অ্যান্ড ইন্টারফেসিং",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৬৬২",name:"মাইক্রোপ্রসেসর অ্যান্ড বায়োমেডিক্যাল অ্যাপ্লিকেশন",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯০৪২",name:"এনভায়রনমেন্টাল কেমিস্ট্রি",departments:["এনভায়রনমেন্টাল"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৯২৩২",name:"বেসিক মেকানিক্স",departments:["মেকানিক্স"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৪৪৩",name:"ডাটা কমিউনিকেশন অ্যান্ড নেটওয়ার্কিং",departments:["টেলিকমিউনিকেশন"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৬৪২",name:"গ্রাফিক ডিজাইন-২",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"১৮-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৮৪৩",name:"ক্লোথ ম্যানুফ্যাকচারিং-১",departments:["ফার্নিচার"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬১৩১",name:"আর্কিটেকচারাল ডিজাইন-২",departments:["আর্কিটেকচার"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬২৭১",name:"অটোমোটিভ ইলেকট্রিক্যাল, ইলেকট্রনিক্স অ্যান্ড অটোমেশন",departments:["অটোমোবাইল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৩৭২",name:"কেমিক্যাল প্রসেস ইন্ডাস্ট্রি-IV",departments:["কেমিক্যাল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৪৭৪",name:"ডিজাইন অব স্ট্রাকচার-II",departments:["কন্সট্রাকশন","সিভিল","সার্ভেয়িং","সিভিল(উড)"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৮৭১",name:"মাইক্রোওয়েভ রাডার অ্যান্ড কনভেনশন এইডস",departments:["ইলেকট্রনিক্স"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৬৮৭৫",name:"অটোমেশন ইঞ্জিনিয়ারিং অ্যান্ড পিএলসি",departments:["গ্লাস","ইলেকট্রিক্যাল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৯৭২",name:"ফুড প্রসেস ইন্ডাস্ট্রি-II",departments:["ফুড"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭০৭৩",name:"হিট ট্রিটমেন্ট অব মেটাল",departments:["পাওয়ার","মেকানিক্যাল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭২৭৪",name:"আরএস ফর ফুড প্রিজারভেশন",departments:["আরএস"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৬৭২",name:"অ্যাডভান্সড সিরামিক প্রোডাক্টস",departments:["সিরামিক"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৯৫৪",name:"মেরিন আইস ইঞ্জিন অপারেশন অ্যান্ড মেইনটেন্যান্স",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮২৭২",name:"এয়ার নেভিগেশন অবসার্ভ",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৫৭২",name:"নেটওয়ার্ক অ্যাডমিনিস্ট্রেশন অ্যান্ড সার্ভিসেস",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৬৭১",name:"অ্যাডভান্স বায়োমেডিক্যাল ইকুইপমেন্ট",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯০৭২",name:"সলিড অ্যান্ড হ্যাজার্ডাস ওয়েস্ট ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯২৭৩",name:"নেটওয়ার্কস অ্যান্ড কমিউনিকেশন্স",departments:["মেকানিক্স"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৪৭১",name:"মাইক্রোওয়েভ ইঞ্জিনিয়ারিং অ্যান্ড অ্যান্টেনাস",departments:["টেলিকমিউনিকেশন"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৬৭৫",name:"গ্রাফিক কমিউনিকেশন",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৮৭১",name:"প্রোডাকশন ট্রেনিং ফর ফার্নিচার ম্যানুফ্যাকচার",departments:["ফার্নিচার"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬১৬৩",name:"ল্যান্ডস্কেপ ডিজাইন",departments:["আর্কিটেকচার"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৩৬২",name:"কেমিক্যাল প্রসেস ইন্ডাস্ট্রি-৩",departments:["কেমিক্যাল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৫৬১",name:"উড ওয়ার্কিং মেশিন-২",departments:["সিভিল(উড)"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৯৬২",name:"ফুড প্রসেস ইন্ডাস্ট্রি-১",departments:["ফুড"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭০৬২",name:"মেকানিক্যাল মেইনটেন্যান্স অ্যান্ড কন্ট্রোল",departments:["অটোমোবাইল","পাওয়ার","মেকানিক্স","মেকানিক্যাল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭২৬১",name:"কুলিং অ্যান্ড হিটিং লোড ক্যালকুলেশন",departments:["আরএস"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৬৬২",name:"ড্রায়ার, কিলন অ্যান্ড ফান্স ব",departments:["সিরামিক"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৭৬১",name:"সিরামিক ম্যানুফ্যাকচারিং-২",departments:["গ্লাস"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৮৬১",name:"প্রিন্সিপলস অব টোপোগ্রাফিক সার্ভে",departments:["সার্ভেয়িং"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৯৬৩",name:"শিপবিল্ড ব্লক মেশিনারি, আউট-ফিটিংস অ্যান্ড মেরিন ইকুইপমেন্ট",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮২৬১",name:"এয়ারক্রাফট ইকুইপমেন্ট অ্যান্ড ফার্নিশিং",departments:["এয়ারোস্পেস"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৩৬১",name:"এয়ারক্রাফট অটোপাইলট সিস্টেম",departments:["এভিওনিক্স"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৫৬১",name:"ডাটাবেস ম্যানেজমেন্ট সিস্টেম",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৮৬১",name:"অ্যাডভান্সড কন্সট্রাকশন",departments:["কন্সট্রাকশন","সিভিল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯০৬২",name:"এয়ার পলিউশন অ্যান্ড কন্ট্রোল ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৫৬১",name:"প্রিন্টিং কস্টিং অ্যান্ড এস্টিমেটিং",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"১৯-০৮-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৮৬১",name:"ফার্নিচার ম্যানুফ্যাকচারিং-৪",departments:["ফার্নিচার"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"সকল পর্ব",code:"২৫৯২১",name:"ম্যাথেমেটিক্স-২",departments:["সকল টেকনোলজি (টুরিজম ব্যতীত)"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৯৯২১",name:"টুরিজম ইন বাংলাদেশ",departments:["টুরিজম"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৩৪৪",name:"অ্যানালিটিক্যাল কেমিস্ট্রি",departments:["কেমিক্যাল"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৪৪৪",name:"সার্ভেয়িং-২",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৪৪৭",name:"সার্ভেসিক এবিভিটিং অ্যান্ড স্টিং",departments:["আর্কিটেকচার","সার্ভেয়িং"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৮৪১",name:"ডিজিটাল ইলেকট্রনিক্স-২",departments:["ইলেকট্রনিক্স","কম্পিউটার সায়েন্স"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৮৪৫",name:"ডিজিটাল ইলেকট্রনিক্স",departments:["ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন","ইলেকট্রনিক্স"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৯৪৩",name:"ফুড কেমিস্ট্রি",departments:["ফুড"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭০৪২",name:"মেশিন শপ প্র্যাকটিস্-৩",departments:["মেকানিক্যাল"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭১৪২",name:"ফুয়েলস্ অ্যান্ড লুব্রিকেন্টস",departments:["অটোমোবাইল","পাওয়ার"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭২৪২",name:"ট্রান্সপোর্ট আরএস",departments:["আরএস"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৬৪৩",name:"রিফ্র্যাক্টরি",departments:["সিরামিক","গ্লাস"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮২৪৪",name:"এয়ারক্রাফট হাইড্রলিক অ্যান্ড ফ্লাইট কন্ট্রোলস",departments:["এয়ারোস্পেস"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৩৪৩",name:"এয়ারক্রাফট কমিউনিকেশন সিস্টেম",departments:["এভিওনিক্স"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৬৪১",name:"ইমেজ ক্যারিয়ার প্রিপারেশন",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"২০-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৮৪৪",name:"ক্যাপিটাল সোস্যাল করসপন্ডেন্স",departments:["ফার্নিচার"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬২৩১",name:"অটোমোটিভ ইঞ্জিন সিস্টেম-২",departments:["অটোমোবাইল"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৮৫১",name:"টেলিভিশন ইঞ্জিনিয়ারিং",departments:["ইলেকট্রনিক্স"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭১৫১",name:"অটোমোটিভ ইলেকট্রিসিটি, ইলেকট্রনিক্স অ্যান্ড অটোমেশন",departments:["পাওয়ার"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৯৫২",name:"মেরিন বয়লার অ্যান্ড স্টিম ইঞ্জিনিয়ারিং",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৮২৩১",name:"এয়ারক্রাফট ম্যাটেরিয়ালস্",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৮৬৩১",name:"মেডিক্যাল ট্রান্সডিউসার অ্যান্ড সেন্সর",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯০৬১",name:"এনভায়রনমেন্টাল ইমপ্যাক্ট অ্যাসেসমেন্ট(ইআইএ) অ্যান্ড এনভায়রনমেন্টাল ভিজুয়ালাইজেশন",departments:["এনভায়রনমেন্টাল"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৬১৩২",name:"আর্কিটেকচারাল গ্রাফিক্স",departments:["আর্কিটেকচার"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৬৩৩২",name:"ইন্ডাস্ট্রিয়াল কেমিস্ট্রি",departments:["কেমিক্যাল"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৬৪৩২",name:"সার্ভেয়িং-১",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৬৭৬৩",name:"ইলেকট্রিক্যাল অ্যান্ড ইলেকট্রনিক মেইনটেন্যান্টস্-২",departments:["ইলেকট্রোমেডিক্যাল","ইলেকট্রনিক্স","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৯৬৪",name:"ফুড অ্যাডাল্টারেশন অ্যান্ড টক্সিকোলজি",departments:["ফুড"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৭০৫৪",name:"ফাউন্ড্রি অ্যান্ড প্যাটার্ন মেকিং",departments:["মেকানিক্যাল","অটোমোবাইল"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭১৬১",name:"ইঞ্জিন ওভারহলিং, ইন্সপেকশন অ্যান্ড টেস্টিং",departments:["পাওয়ার"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৭৬৩২",name:"সিরামিক ইঞ্জিনিয়ারিং ম্যাটেরিয়ালস-২",departments:["সিরামিক"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৭৭৩২",name:"গ্লাস প্ল্যান্টস্ অ্যান্ড ইকুইপমেন্ট",departments:["গ্লাস"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৭৮৩১",name:"কলভেলিং",departments:["ক্যাডাস্ট্রাল","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","সার্ভেয়িং"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৭ম পর্ব",code:"২৭৯৭৩",name:"মেরিন আইস ইঞ্জিন ওভারহলিং অ্যান্ড কিকড বিকম্পিং",departments:["মেরিন"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮০৬৩",name:"এস্টিমেটিং অ্যান্ড কস্টিং ইন শিপবিল্ডিং",departments:["শিপবিল্ডিং"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৩৬৪",name:"প্রপালশন",departments:["এভিওনিক্স"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৮৫৩৩",name:"আইটি সাপোর্ট সার্ভিসেস",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯২৬২",name:"ইন্সট্রুমেন্টেশন অ্যান্ড কন্ট্রোল সিস্টেম",departments:["মেকানিক্স"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৯৬৩১",name:"গ্রাফিক ডিজাইন-১",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"২২-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৮৬৫",name:"ম্যানুফ্যাকচারিং মেশিনারি",departments:["ফার্নিচার"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬১৬১",name:"আর্কিটেকচারাল ডিজাইন-৫",departments:["আর্কিটেকচার"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬২৫১",name:"অটোমোবাইল এয়ার-কন্ডিশনিং",departments:["অটোমোবাইল"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৩৫৪",name:"ইন্ডাস্ট্রিয়াল ইন্সট্রুমেন্টেশন অ্যান্ড প্রসেস কন্ট্রোল",departments:["কেমিক্যাল"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৪৫৪",name:"রিউমি অব স্ট্রাকচার",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সার্ভেয়িং","সিভিল","সিভিল(উড)"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৯৫৪",name:"ফুড অ্যান্ড কভারেজ প্রোডাক্টস",departments:["ফুড"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭২৫২",name:"কমার্শিয়াল অ্যান্ড ইন্ডাস্ট্রিয়াল আরএস",departments:["আরএস"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৬৫৪",name:"সিরামিক ফেব্রিকেশন অ্যান্ড ড্রাইং",departments:["সিরামিক"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৭৬৫",name:"গ্লাস ইন্ডাস্ট্রিয়াল সেফটি",departments:["গ্লাস"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৯৬১",name:"পাওয়ার সিস্টেম প্রোটেকশন",departments:["মেরিন"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮২৫৪",name:"এয়ারক্রাফট প্রোপেলারস্",departments:["এয়ারোস্পেস"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৩৫৪",name:"এয়ারক্রাফট কনভেনশন সিস্টেম",departments:["এভিওনিক্স"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৫৫৪",name:"ডাটা কমিউনিকেশন",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৫৫৪",name:"ইঙ্ক অ্যান্ড পেপার",departments:["প্রিন্টিং"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৬৫২",name:"ফেমিক ডিজাইন",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৮৫৪",name:"ক্লোথ প্রোডাক্টস্ ম্যানুফ্যাকচারিং",departments:["ফার্নিচার"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬১৪২",name:"হিস্ট্রি অব আর্কিটেকচার-১",departments:["আর্কিটেকচার"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৪৪৫",name:"জিওটেকনিক্যাল ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৬৭৪২",name:"ডিসি মেশিন",departments:["ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৭০৪১",name:"ইঞ্জিনিয়ারিং মেকানিক্স",departments:["মেরিন","শিপবিল্ডিং","অটোমোবাইল","আরএস","কেমিক্যাল","পাওয়ার","ফুড","মেকানিক্স","মেকানিক্যাল"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৬৪২",name:"সিরামিক ইঞ্জিনিয়ারিং কেমিস্ট্রি",departments:["সিরামিক"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৭৪১",name:"গ্লাস ইঞ্জিনিয়ারিং কেমিস্ট্রি",departments:["গ্লাস"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৮৪২",name:"ফান্ডামেন্টালস্ অব জিআইএস",departments:["সার্ভেয়িং"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮২৪২",name:"এয়ারক্রাফট নিউম্যাটিক অ্যান্ড আইস-রেন প্রোটেকশন",departments:["এয়ারোস্পেস"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৩৪২",name:"এয়ারক্রাফট ভিডিও অ্যান্ড রাডার",departments:["এভিওনিক্স"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৫৪২",name:"ডাটা স্ট্রাকচার অ্যান্ড অ্যালগরিদম",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৫৪২",name:"সেফটি অ্যান্ড মেইনটেন্যান্স",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"২৩-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৯৮৪২",name:"ট্যানিং অ্যান্ড ফার্নিচার ম্যাটেরিয়ালস",departments:["ফার্নিচার"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৭০৩১",name:"মেকানিক্যাল ইঞ্জিনিয়ারিং ম্যাটেরিয়ালস্",departments:["আরএস","অটোমোবাইল","মেকানিক্যাল","মেকানিক্স"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬১৭৩",name:"আর্বান ট্রেনিং",departments:["আর্কিটেকচার"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৩৭৩",name:"ন্যাচারাল গ্যাস অ্যান্ড ফার্টিলাইজার",departments:["কেমিক্যাল"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৪৭৫",name:"এস্টিমেটিং অ্যান্ড কস্টিং-II",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৭৭২",name:"ট্রান্সমিশন অ্যান্ড ডিস্ট্রিবিউশন অব ইলেকট্রিক্যাল পাওয়ার-II",departments:["ইলেকট্রিক্যাল"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৮৭২",name:"ইন্ডাস্ট্রিয়াল অটোমেশন অ্যান্ড পিএলসি",departments:["ইলেকট্রনিক্স"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৯৭৩",name:"ফুড কোয়ালিটি কন্ট্রোল অ্যান্ড অ্যাস্যুরেন্স",departments:["ফুড"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭১৭১",name:"সার্ভিস স্টেশন অপারেশন, এস্টিমেটিং অ্যান্ড ভেহিকল ড্রাইভিং",departments:["পাওয়ার"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৩৭৩",name:"রিয়েল এস্টেট",departments:["সার্ভেয়িং"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৬৭৩",name:"কিলন, ফান্স ব ডিজাইন অ্যান্ড কন্সট্রাকশন",departments:["সিরামিক"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৭৭২",name:"গ্লাস কোয়ালিটি কন্ট্রোল-II",departments:["গ্লাস"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৯৭৬",name:"কন্ট্রোল ইঞ্জিনিয়ারিং অ্যান্ড মেকানিক্স",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৩৭১",name:"হিউম্যান ফ্যাক্টস",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৫৭৩",name:"সাইবার সিকিউরিটি অ্যান্ড এথিক্স",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৬৭২",name:"আইসিইউ অ্যান্ড সিসিইউ ইকুইপমেন্ট",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৪৭২",name:"অপটিক্যাল ফাইবার কমিউনিকেশন",departments:["টেলিকমিউনিকেশন"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৫৭১",name:"অ্যাডভান্সড প্রিন্টিং",departments:["প্রিন্টিং"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৬৭১",name:"অ্যানিমেশন",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৮৭৩",name:"রিসার্চন্ডাইমিং",departments:["ফার্নিচার"]},
+      {date:"২৪-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৫৯১১",name:"ম্যাথেমেটিক্স-১",departments:["সকল টেকনোলজি (টুরিজম ব্যতীত)"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৩৫৬",name:"ইন্ডাস্ট্রিয়াল প্রোডাকশন ইঞ্জিনিয়ারিং",departments:["কেমিক্যাল"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৬৪৪২",name:"এস্টিমেটিং অ্যান্ড কস্টিং-১",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৬৭৫২",name:"ইলেকট্রিক্যাল অ্যান্ড ইলেকট্রনিক্স মেইনটেন্যান্টস্-১",departments:["ইলেকট্রোমেডিক্যাল","ইলেকট্রনিক্স","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৯৫২",name:"ফুড প্রিজারভেশন-২",departments:["ফুড"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৭৭৪৪",name:"ফুয়েলস্ অ্যান্ড ফিউশন",departments:["গ্লাস","সিরামিক"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮০৫২",name:"শিপইয়ার্ড ব্র্যাকটিস্",departments:["শিপবিল্ডিং"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৮৫২১",name:"পাইথন প্রোগ্রামিং",departments:["কম্পিউটার সায়েন্স","সার্ভেয়িং"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯২৩১",name:"মেকানিক্স অ্যান্ড পিএলসি",departments:["অটোমোবাইল","আরএস","মেকানিক্যাল"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯২৭২",name:"ইন্ডাস্ট্রিয়াল অটোমেশন সিস্টেম ডিজাইন",departments:["মেকানিক্স"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৯৩২১",name:"মিনারেলজি অ্যান্ড মিনারেল রিসোর্সেস অব বাংলাদেশ",departments:["প্যারামেডিক্স"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৬৫৫",name:"গ্রাফিক্স ডিজাইন-৩",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৮৫২",name:"ফার্নিচার ডিজাইন-২",departments:["ফার্নিচার"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৩৬৩",name:"প্যারামেডিক্স অ্যান্ড প্যারাকেমিক্যালস",departments:["কেমিক্যাল"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৪৬৪",name:"ডিজাইন অব স্ট্রাকচার-১",departments:["আর্কিটেকচার","এনভায়রনমেন্টাল","কন্সট্রাকশন","সার্ভেয়িং","সিভিল","সিভিল(উড)"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৬৭৬১",name:"এসি মেশিন-১",departments:["ইলেকট্রোমেডিক্যাল","ইলেকট্রনিক্স","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৯৬৩",name:"বেকারি প্রোডাক্টস",departments:["ফুড"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭০৬১",name:"স্ট্রেংথ অব ম্যাটেরিয়ালস",departments:["শিপবিল্ডিং","অটোমোবাইল","আরএস","পাওয়ার","মেকানিক্স","মেকানিক্যাল","মেরিন"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৬৬৩",name:"সিরামিক কোয়ালিটি কন্ট্রোল",departments:["সিরামিক"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৭৬২",name:"হিট ট্রান্সফার অ্যান্ড থার্মোডাইনামিক্স",departments:["গ্লাস"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮২৬২",name:"হেলিকপ্টার কন্ট্রোলস অ্যান্ড সিস্টেমস",departments:["এয়ারোস্পেস"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৩৬২",name:"ইলেকট্রনিক্স ইন্সট্রুমেন্ট সিস্টেম",departments:["এভিওনিক্স"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৫৬২",name:"কম্পিউটার নেটওয়ার্কিং",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৫৬২",name:"কালার প্রিন্টিং-২",departments:["প্রিন্টিং"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৬৬১",name:"ডেস্কটপ পাবলিশিং",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"২৫-০৮-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৮৬২",name:"CAD অ্যান্ড CAM ফর ফার্নিচার",departments:["ফার্নিচার"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৬২২১",name:"অটোমোটিভ ইঞ্জিন সিস্টেম ১",departments:["অটোমোবাইল"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৬৩২১",name:"বেসিক স্ট্রাকচার",departments:["কেমিক্যাল"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৬৪২১",name:"সিভিল ইঞ্জিনিয়ারিং ড্রয়িং",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৬৭২২",name:"ইলেকট্রিক্যাল ইঞ্জিনিয়ারিং ড্রয়িং",departments:["ইলেকট্রিক্যাল"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৬৯২২",name:"ফুড প্ল্যান্ট লেআউট অ্যান্ড ডিজাইন",departments:["ফুড"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৭০২১",name:"মেকানিক্যাল ইঞ্জিনিয়ারিং ড্রয়িং",departments:["আরএস","মেকানিক্স","মেকানিক্যাল"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৭১২১",name:"পাওয়ার ইকুইপমেন্ট ম্যানেজমেন্ট অ্যান্ড সেফটি",departments:["পাওয়ার"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৭৬২২",name:"সিরামিক ইঞ্জিনিয়ারিং ম্যাটেরিয়ালস্ ১",departments:["সিরামিক"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৭৭২১",name:"গ্লাস ইঞ্জিনিয়ারিং ম্যাটেরিয়ালস্-২",departments:["গ্লাস"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৭৮২১",name:"বেসিক সার্ভেয়িং",departments:["ক্যাডাস্ট্রাল","বায়োইনফরমেটিক্স","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","সার্ভেয়িং","আর্কিটেকচার"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৮০২১",name:"জেনারেল শিপ নলেজ",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৮২২১",name:"এয়ারক্রাফট স্ট্রাকচার অ্যান্ড রিপেয়ার",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৮৬২১",name:"বেসিক বায়োমেডিক্যাল ইঞ্জিনিয়ারিং",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৯৫২১",name:"অফসেট মেশিন অপারেশন",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৯৮২২",name:"ম্যাটেরিয়ালস্ সায়েন্স অ্যান্ড ইঞ্জিনিয়ারিং",departments:["ফার্নিচার"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৯৯২২",name:"অফিস অপারেশন-১",departments:["টুরিজম"]},
+      {date:"২৭-০৮-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৩য় পর্ব",code:"২৫৯৩১",name:"ম্যাথেমেটিক্স-৩",departments:["সকল টেকনোলজি"]},
+      {date:"২৯-০৮-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"সকল পর্ব",code:"২৫৭২২",name:"ইংরেজি-২",departments:["সকল টেকনোলজি"]},
+      {date:"২৯-০৮-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৫৮৪১",name:"একাউন্টিং",departments:["টুরিজম","অটোমোবাইল","আরএস","আর্কিটেকচার","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","এভিওনিক্স","এয়ারোস্পেস","কন্সট্রাকশন","কেমিক্যাল","গ্রাফিক ডিজাইন","গ্লাস","টেলিকমিউনিকেশন","প্রিন্টিং","পাওয়ার","ফার্নিচার","ফুড","মেকানিক্স","মেকানিক্যাল","মেরিন","শিপবিল্ডিং","সিভিল","সিভিল(উড)","সিরামিক","এনভায়রনমেন্টাল","কম্পিউটার সায়েন্স","সার্ভেয়িং"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬১৭৪",name:"প্রফেশনাল প্র্যাকটিস",departments:["আর্কিটেকচার"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬২৭৩",name:"শপ ইকুইপমেন্ট, সার্ভিস স্টেশন অপারেশন অ্যান্ড ওয়ার্কশপ প্র্যাকটিস",departments:["অটোমোবাইল"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৩৭৪",name:"রিস্ক অ্যান্ড পলিসি টেকনোলজি",departments:["কেমিক্যাল"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৪৭২",name:"স্যানিটারি ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৭৭৩",name:"সুইচ গিয়ার অ্যান্ড প্রোটেকশন",departments:["ইলেকট্রিক্যাল","টেলিকমিউনিকেশন","ইলেকট্রোমেডিক্যাল"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৮৭৩",name:"কন্ট্রোল সিস্টেম অ্যান্ড রোবোটিক্স",departments:["ইলেকট্রনিক্স"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৯৭৪",name:"কনফেকশনারি প্রোডাক্টস",departments:["ফুড"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭০৭২",name:"টুল ডিজাইন",departments:["মেকানিক্যাল"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭১৭২",name:"হাইব্রিড অ্যান্ড ইলেকট্রিক ভেহিকল",departments:["পাওয়ার","মেকানিক্স"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭২৭৩",name:"অ্যাডভান্স আরএস",departments:["আরএস"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৬৬৪",name:"সিরামিক গ্লেজ অ্যান্ড কালার",departments:["সিরামিক"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৭৭৩",name:"গ্লাস ডেকোরেশন অ্যান্ড প্রিন্টিং",departments:["গ্লাস"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৮৭১",name:"মাইন সার্ভেয়িং",departments:["সার্ভেয়িং"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৯৭৪",name:"মেরিটাইম গাইডলাইন ইন মেরিটাইম সেক্টর",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৩৭২",name:"এয়ারক্রাফট ক্যাবিন অ্যান্ড ইনফরমেশন সিস্টেম",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৫৭৪",name:"অ্যাপস ডেভেলপমেন্ট প্রজেক্ট",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৫৭২",name:"রোল শিটিং ম্যানেজমেন্ট ইন প্রিন্টিং ইন্ডাস্ট্রি",departments:["প্রিন্টিং"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৬৭৩",name:"অ্যাডভান্সড ডিজিটাল ফটোগ্রাফ",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৮৭৬",name:"সলিড ওয়েস্ট ম্যানেজমেন্ট",departments:["ফার্নিচার"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬২৬১",name:"ইঞ্জিন ওভারহলিং অ্যান্ড ইন্সপেকশন",departments:["অটোমোবাইল"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৭৬২",name:"ট্রান্সমিশন অ্যান্ড ডিস্ট্রিবিউশন অব ইলেকট্রিক্যাল পাওয়ার-১",departments:["ইলেকট্রিক্যাল"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৩৬৪",name:"ইন্ডাস্ট্রিয়াল স্ট্রাকচার অ্যান্ড থার্মোডাইনামিক্স",departments:["কেমিক্যাল","ফুড"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৪৬২",name:"অ্যাডভান্স সার্ভেয়িং",departments:["সিভিল"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৫৬২",name:"উড প্রসেসিং",departments:["সিভিল(উড)"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৭৬৪",name:"ট্রান্সমিশন অ্যান্ড ডিস্ট্রিবিউশন অব ইলেকট্রিক্যাল পাওয়ার",departments:["ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","টেলিকমিউনিকেশন","পাওয়ার"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৭০৬৩",name:"CAD অ্যান্ড CAM",departments:["গ্লাস","আরএস","মেকানিক্স","মেকানিক্যাল","মেরিন","শিপবিল্ডিং","সিরামিক"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৮৬৩",name:"হাইড্রোগ্রাফিক সার্ভেয়িং",departments:["সার্ভেয়িং"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮২৬৩",name:"ইঞ্জিনিয়ারিং এথিক্স",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৬৬২",name:"ওয়েব ডিজাইন অ্যান্ড ডেভেলপমেন্ট",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"৩০-০৮-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৮৬৩",name:"ফিজিক্যাল কস্টিং-২",departments:["ফার্নিচার"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৩৩১",name:"কেমিক্যাল ইঞ্জিনিয়ারিং অপারেশন-১",departments:["কেমিক্যাল"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৪৩৪",name:"বেসিক কন্সট্রাকশন প্রসেস",departments:["ক্যাডাস্ট্রাল","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","সার্ভেয়িং","আর্কিটেকচার"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৪৫৬",name:"হাইড্রলিক্স",departments:["সিভিল","এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল(উড)"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৬৭২১",name:"ইলেকট্রিক্যাল সার্ভিসেস- ১",departments:["ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৬৯২১",name:"ফুড সায়েন্স অ্যান্ড নিউট্রিশন",departments:["ফুড"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭০৫৫",name:"ম্যানুফ্যাকচারিং প্রসেস",departments:["অটোমোবাইল","মেকানিক্স","মেকানিক্যাল","আরএস"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৭৬৪",name:"গ্লাস প্রোডাক্টস-১",departments:["গ্লাস"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৭৯৫৬",name:"মেরিটাইম ল'স",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"১ম পর্ব",code:"২৯৩১১",name:"বেসিকস্ অব প্যারামেডিক্স এন্ড ট্রেনিং মিথডলজি",departments:["প্যারামেডিক্স"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৬৫৪",name:"প্যাকেজিং ডিজাইন-১",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৯৮৫৬",name:"ক্লোথ ম্যানুফ্যাকচারিং- ২",departments:["ফার্নিচার"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৬১১১",name:"ক্রিয়েটিভিটি অ্যান্ড কনসেপ্ট ডেভেলপমেন্ট",departments:["আর্কিটেকচার"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৬৩১১",name:"কেমিক্যাল ইঞ্জিনিয়ারিং ফান্ডামেন্টালস্",departments:["কেমিক্যাল"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"২য় পর্ব",code:"২৬৫২১",name:"উড ওয়ার্কশপ প্র্যাকটিস",departments:["সিভিল(উড)","সিভিল"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৬৭১২",name:"ইলেকট্রিক্যাল ইঞ্জিনিয়ারিং ম্যাটেরিয়ালস্",departments:["ইলেকট্রিক্যাল"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৬৯১১",name:"ফুড ইঞ্জিনিয়ারিং ফান্ডামেন্টালস্",departments:["ফুড"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৭০১২",name:"মেশিন শপ প্র্যাকটিস্-১",departments:["মেকানিক্যাল","প্যারামেডিক্স","মেকানিক্স","মেরিন","শিপবিল্ডিং","অটোমোবাইল","আরএস"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৭৬১১",name:"জিওলজিক্যাল ইঞ্জিনিয়ারিং",departments:["সিরামিক"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৭৭১১",name:"গ্লাস ইঞ্জিনিয়ারিং ম্যাটেরিয়ালস্-১",departments:["গ্লাস"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৭৮৫১",name:"এডভান্সড জিআইএস",departments:["সার্ভেয়িং"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৮২১১",name:"বেসিক এয়ারোডাইনামিক্স",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৫৬৫",name:"সার্ভিল্যান্স সিকিউরিটি সিস্টেম",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৮৬১১",name:"হিউম্যান অ্যানাটমি অ্যান্ড ফিজিওলজি",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৮৪২",name:"কন্সট্রাকশন সেফটি",departments:["কন্সট্রাকশন"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৯০১১",name:"বেসিক এনভায়রনমেন্টাল ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৯৪১১",name:"বেসিকস্ অব টেলিকমিউনিকেশন",departments:["টেলিকমিউনিকেশন"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৯৫১১",name:"প্রিন্টিং বেসিকস",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"২য় পর্ব",code:"২৯৮২৩",name:"মেকানিক্যাল ইঞ্জিনিয়ারিং ফান্ডামেন্টালস্",departments:["ফার্নিচার"]},
+      {date:"৩১-০৮-২০২৬",day:"সোমবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৯৯১১",name:"বেসিকস্ অব টুরিজম অ্যান্ড হসপিটালিটি",departments:["টুরিজম"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬২৭২",name:"অটোমোটিভ কস্টিং অ্যান্ড ইমিশন কন্ট্রোল",departments:["অটোমোবাইল"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৩৬৬",name:"জুট অ্যান্ড টেক্সটাইল টেকনোলজি",departments:["কেমিক্যাল"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"১ম পর্ব",code:"২৬৪১১",name:"সিভিল ইঞ্জিনিয়ারিং ম্যাটেরিয়ালস্",departments:["কন্সট্রাকশন","ক্যাডাস্ট্রাল","বায়োইনফরমেটিক্স","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","সার্ভেয়িং","সিভিল","সিভিল(উড)","আর্কিটেকচার","এনভায়রনমেন্টাল"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৮৩১",name:"ডিজিটাল ইলেকট্রনিক্স-১",departments:["ইলেকট্রনিক্স","কম্পিউটার সায়েন্স"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৯৬১",name:"ফুড ইঞ্জিনিয়ারিং অপারেশন-১",departments:["ফুড"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"১ম পর্ব",code:"২৭২১১",name:"আরএস ফান্ডামেন্টালস্",departments:["আরএস"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৬৭৪",name:"গ্লাস ম্যানুফ্যাকচারিং",departments:["সিরামিক"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭৭৩১",name:"গ্লাস ক্লাড অ্যান্ড ডাই-১",departments:["গ্লাস"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৯৬৫",name:"মেরিন এনভায়রনমেন্টাল সায়েন্স",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৩৭৩",name:"সেফটি ম্যানেজমেন্ট সিস্টেম অ্যান্ড রিলায়েবিলিটি প্রোগ্রাম",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৬৫২",name:"ফাইবার অপটিক্স অ্যান্ড লেজার ইন মেডিক্যাল ফিল্ড",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৪৬৩",name:"সিগন্যালস অ্যান্ড সুইচিং সিস্টেম",departments:["টেলিকমিউনিকেশন"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৫৮৩১",name:"বিজনেস কমিউনিকেশন",departments:["গ্লাস","টুরিজম","আরএস","কন্সট্রাকশন","প্রিন্টিং","ফার্নিচার","মেকানিক্স","মেকানিক্যাল","সিভিল","সিভিল(উড)","সিরামিক","গ্রাফিক ডিজাইন","এনভায়রনমেন্টাল","কম্পিউটার সায়েন্স","কেমিক্যাল","ফুড","সার্ভেয়িং","আর্কিটেকচার","পাওয়ার","অটোমোবাইল","এভিওনিক্স","এয়ারোস্পেস","ফার্নিচার","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"০১-০৯-২০২৬",day:"মঙ্গলবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৭৯৪২",name:"মেরিন আইস ইঞ্জিন-২",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"১ম পর্ব",code:"২৬৭১১",name:"বেসিক ইলেকট্রিসিটি",departments:["অটোমোবাইল","আর্কিটেকচার","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","এনভায়রনমেন্টাল","এভিওনিক্স","এয়ারোস্পেস","কন্সট্রাকশন","কম্পিউটার সায়েন্স","ক্যাডাস্ট্রাল","গ্লাস","বায়োইনফরমেটিক্স","টেলিকমিউনিকেশন","ফার্নিচার","ফটোগ্রামমেট্রি","মেকানিক্স","মেরিন","ল্যান্ড সার্ভেয়িং","শিপবিল্ডিং","সার্ভেয়িং","সিভিল","সিভিল(উড)","সিরামিক","আরএস","প্রিন্টিং","পাওয়ার","প্যারামেডিক্স","ফুড","মেকানিক্যাল","গ্রাফিক ডিজাইন","কেমিক্যাল"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"সকাল ১০:০০",semester:"১ম পর্ব",code:"২৯৯১২",name:"ফুড সেফটি, হাইজিন, এন্ড স্যানিটেশন ফর টুরিজম এন্ড হসপিটালিটি",departments:["টুরিজম"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৬৩৫৫",name:"ফার্মাসিউটিক্যাল অ্যান্ড কোড স্টোরেজ",departments:["কেমিক্যাল","ফুড"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৬৪৫৫",name:"ওয়াটার সাপ্লাই ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সিভিল","সিভিল(উড)"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৬৮৫৩",name:"মাইক্রোপ্রসেসর অ্যান্ড মাইক্রোকন্ট্রোলার",departments:["ইলেকট্রিক্যাল","টেলিকমিউনিকেশন"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭০৬৫",name:"প্ল্যান্ট ইঞ্জিনিয়ারিং অ্যান্ড মেইনটেন্যান্স",departments:["আরএস","পাওয়ার","মেকানিক্যাল"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৭৬৫৫",name:"সাইন্ট ম্যানুফ্যাকচারিং",departments:["গ্লাস","সিরামিক"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৭৮৫৪",name:"ল্যান্ড ল'স অব বাংলাদেশ",departments:["সার্ভেয়িং"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৭৯৫৫",name:"বেসিক সেফটি অ্যান্ড সিকিউরিটি",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৮২৫৫",name:"হেলিকপ্টার এয়ারোডাইনামিক্স অ্যান্ড স্ট্রাকচারস্",departments:["এয়ারোস্পেস"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৮৫৫৫",name:"অপারেটিং সিস্টেম",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৯৫৫৫",name:"ডিজিটাল ডিজাইন অ্যান্ড প্রিন্টিং",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"০২-০৯-২০২৬",day:"বুধবার",time:"বিকাল ২:০০",semester:"৫ম পর্ব",code:"২৯৮৫৫",name:"কেমিক্যাল কস্টিং",departments:["ফার্নিচার"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬১৭৫",name:"ইন্টেরিয়র ডিজাইন-II",departments:["আর্কিটেকচার"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৬২৪১",name:"অটোমোটিভ বডি বিল্ডিং",departments:["অটোমোবাইল","পাওয়ার"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৩৭৫",name:"কোরোসন টেকনোলজি",departments:["কেমিক্যাল"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৬৯৭৫",name:"ফুড অ্যানালাইসিস",departments:["ফুড"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭০৭৫",name:"প্রোডাকশন ট্রেনিং অ্যান্ড কন্ট্রোল",departments:["আরএস","মেকানিক্স","মেকানিক্যাল"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৭৭৬",name:"গ্লাস ইঞ্জিনিয়ারিং প্রজেক্ট",departments:["গ্লাস"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৪র্থ পর্ব",code:"২৭৯৪১",name:"ফ্লুইড মেকানিক্স অ্যান্ড হাইড্রলিক মেশিনারি",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮২৭৩",name:"এয়ারক্রাফট মেইনটেন্যান্স প্র্যাকটিসেস",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৫৭৫",name:"মাল্টিমিডিয়া অ্যান্ড অ্যানিমেশন",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৬৭৪",name:"মেডিক্যাল ফিজিক্স অ্যান্ড নিউমেরিক্যাল ইন্সট্রুমেন্টস",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৮৮৭১",name:"কন্সট্রাকশন ম্যানেজমেন্ট অ্যান্ড ডকুমেন্টেশন",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সার্ভেয়িং","সিভিল"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৪৭৩",name:"স্যাটেলাইট কমিউনিকেশন অ্যান্ড রাডার",departments:["টেলিকমিউনিকেশন"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৫৭৩",name:"প্রিন্ট ফিনিশিং",departments:["প্রিন্টিং"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৬৭৪",name:"গ্রাফিক ডিজাইন-V",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৯৮৭৫",name:"কোয়ালিটি কন্ট্রোল অ্যান্ড অ্যাস্যুরেন্স",departments:["ফার্নিচার"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬১৬৫",name:"ইন্টেরিয়র ডিজাইন-১",departments:["আর্কিটেকচার"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬২৬৩",name:"স্পেশালাইজড ভেহিকলস, টায়ার অ্যান্ড হুইলস",departments:["অটোমোবাইল"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৩৬৫",name:"ইন্সট্রুমেন্টাল মেথডস অব অ্যানালাইসিস",departments:["কেমিক্যাল","ফুড"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৪৬১",name:"ওয়াটার রিসোর্সেস ইঞ্জিনিয়ারিং",departments:["কন্সট্রাকশন","সিভিল"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৫৬৩",name:"উড ফিনিশিং",departments:["সিভিল(উড)"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৬৬৫",name:"সিরামিক ডেকোরেশন অ্যান্ড প্রিন্টিং",departments:["সিরামিক"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৭৬৩",name:"গ্লাস কোয়ালিটি কন্ট্রোল-১",departments:["গ্লাস"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৮৬৫",name:"প্রিপারেশন অ্যান্ড মেইনটেন্যান্স অব ল্যান্ড রেকর্ডস",departments:["সার্ভেয়িং"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৯৬৪",name:"মেরিন প্রপালশন অ্যান্ড স্টিয়ারিং সিস্টেম",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৩৬৩",name:"এয়ারক্রাফট ইলেকট্রিক্যাল পাওয়ার",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৫৬৪",name:"মাইক্রোকন্ট্রোলার বেসড সিস্টেম ডিজাইন অ্যান্ড ডেভেলপমেন্ট",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৪র্থ পর্ব",code:"২৮৫৬৭",name:"প্রোগ্রামিং ইন সি",departments:["টেলিকমিউনিকেশন","পাওয়ার","মেকানিক্স","আরএস","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","মেকানিক্যাল","ইলেকট্রিক্যাল"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯০৬৪",name:"হেলথ, সেফটি অ্যান্ড এনভায়রনমেন্ট (এইচএসই)",departments:["এনভায়রনমেন্টাল"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৫৬৪",name:"গ্র্যাভিউর প্রিন্টিং",departments:["প্রিন্টিং"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৬৬৩",name:"গ্রাফিক ডিজাইন-৪",departments:["গ্রাফিক ডিজাইন"]},
+      {date:"০৩-০৯-২০২৬",day:"বৃহস্পতিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৯৮৬৪",name:"সাপ্লাই চেইন ম্যানেজমেন্ট",departments:["ফার্নিচার"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৩৩৩",name:"কেমিক্যাল ইঞ্জিনিয়ারিং ম্যাটেরিয়ালস",departments:["কেমিক্যাল"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৫৫১",name:"ডিজাইন অ্যান্ড ড্রয়িং অব ফান্সি বার",departments:["সিভিল(উড)"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৮৩৩",name:"ইন্ডাস্ট্রিয়াল ইলেকট্রনিক্স",departments:["ইলেকট্রিক্যাল","মেকানিক্স"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৬৯৩১",name:"ক্যাটারিং ম্যানেজমেন্ট",departments:["ফুড"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭২৩১",name:"আরএস সাইকেলস্ অ্যান্ড কো-রিলেশন",departments:["আরএস","পাওয়ার","মেকানিক্যাল","মেরিন","শিপবিল্ডিং"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭৬৩১",name:"রড অ্যান্ড মডিউল ফেব্রিকেশন-১",departments:["সিরামিক"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭৮৩২",name:"সার্ভে CAD",departments:["ক্যাডাস্ট্রাল","ফটোগ্রামমেট্রি","ল্যান্ড সার্ভেয়িং","সার্ভেয়িং"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৮৫৩১",name:"অ্যাপ্লিকেশন ডেভেলপমেন্ট ইউজিং পাইথন",departments:["কম্পিউটার সায়েন্স"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৮৬৩২",name:"অপারেটিং রুম ইকুইপমেন্ট",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৯০৩১",name:"ওয়াটার কোয়ালিটি ইঞ্জিনিয়ারিং",departments:["এনভায়রনমেন্টাল"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৯৫৩১",name:"গ্রাফিক ম্যাটেরিয়ালস্",departments:["গ্রাফিক ডিজাইন","প্রিন্টিং"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৯৮৩১",name:"ফার্নিচার ম্যানুফ্যাকচারিং-১",departments:["ফার্নিচার"]},
+      {date:"০৫-০৯-২০২৬",day:"শনিবার",time:"বিকাল ২:০০",semester:"১ম পর্ব",code:"২৫৭১১",name:"বাংলা-১",departments:["অটোমোবাইল","আরএস","আর্কিটেকচার","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","এনভায়রনমেন্টাল","এভিওনিক্স","এয়ারোস্পেস","কন্সট্রাকশন","কম্পিউটার সায়েন্স","ক্যাডাস্ট্রাল","কেমিক্যাল","গ্রাফিক ডিজাইন","গ্লাস","বায়োইনফরমেটিক্স","টুরিজম","টেলিকমিউনিকেশন","প্রিন্টিং","পাওয়ার","ফার্নিচার","ফটোগ্রামমেট্রি","ফুড","মেকানিক্স","মেকানিক্যাল","মেরিন","ল্যান্ড সার্ভেয়িং","শিপবিল্ডিং","সার্ভেয়িং","সিভিল","সিভিল(উড)","সিরামিক","প্যারামেডিক্স"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৬৮২১",name:"ইলেকট্রনিক ডিভাইসেস অ্যান্ড সার্ভিসেস",departments:["ইলেকট্রনিক্স","টেলিকমিউনিকেশন","মেকানিক্স"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬১৬৪",name:"আর্বান আর্কিটেকচার",departments:["আর্কিটেকচার"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৬৪৬৩",name:"ট্রান্সপোর্টেশন ইঞ্জিনিয়ারিং-১",departments:["এনভায়রনমেন্টাল","কন্সট্রাকশন","সার্ভেয়িং","সিভিল","সিভিল(উড)"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৬৯৫৫",name:"ফুড ইন্ডাস্ট্রিয়াল ইন্সট্রুমেন্টেশন অ্যান্ড প্রসেস কন্ট্রোল",departments:["ফুড"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৭৬৬১",name:"টাইলস্ অ্যান্ড স্যানিটারি ওয়্যারস্",departments:["সিরামিক"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৭ম পর্ব",code:"২৭৭৭৪",name:"গ্লাস হাউস ইন্সট্রুমেন্টেশন",departments:["গ্লাস"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৩য় পর্ব",code:"২৭৯৩১",name:"মেরিন আইস ইঞ্জিন-১",departments:["মেরিন","শিপবিল্ডিং"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৫ম পর্ব",code:"২৮৩৫৫",name:"এয়ারক্রাফট ইন্সট্রুমেন্ট সিস্টেম",departments:["এভিওনিক্স","এয়ারোস্পেস"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"সকাল ১০:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮৬৬৩",name:"টেস্টিং অ্যান্ড মেইনটেন্যান্স বায়োমেডিক্যাল ইকুইপমেন্ট",departments:["ইলেকট্রোমেডিক্যাল"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"২য় পর্ব",code:"২৫৮৫১",name:"প্রিন্সিপালস্ অব মার্কেটিং",departments:["টুরিজম","আরএস","ইলেকট্রনিক্স","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","গ্লাস","টেলিকমিউনিকেশন","ফার্নিচার","মেকানিক্স","অটোমোবাইল","এভিওনিক্স","এয়ারোস্পেস","কম্পিউটার সায়েন্স","কেমিক্যাল","গ্রাফিক ডিজাইন","প্রিন্টিং","মেকানিক্যাল","ফার্নিচার","আর্কিটেকচার","এনভায়রনমেন্টাল","কন্সট্রাকশন","পাওয়ার","ফুড","মেরিন","সার্ভেয়িং","সিভিল","সিভিল(উড)","সিরামিক"]},
+      {date:"০৬-০৯-২০২৬",day:"রবিবার",time:"বিকাল ২:০০",semester:"৬ষ্ঠ পর্ব",code:"২৮০৬১",name:"শিপ ডিজাইন",departments:["শিপবিল্ডিং"]},
+      {date:"০৭-০৯-২০২৬",day:"সোমবার",time:"সকাল ১০:০০",semester:"২য় পর্ব",code:"২৫৯২২",name:"ফিজিক্স-২",departments:["অটোমোবাইল","ইলেকট্রোমেডিক্যাল","ইলেকট্রিক্যাল","এভিওনিক্স","এয়ারোস্পেস","ক্যাডাস্ট্রাল","গ্রাফিক ডিজাইন","বায়োইনফরমেটিক্স","টেলিকমিউনিকেশন","প্রিন্টিং","প্যারামেডিক্স","ফার্নিচার","ফটোগ্রামমেট্রি","মেকানিক্স","মেকানিক্যাল","মেরিন","ল্যান্ড সার্ভেয়িং","শিপবিল্ডিং","সার্ভেয়িং","আরএস","আর্কিটেকচার","ইলেকট্রনিক্স","এনভায়রনমেন্টাল","কন্সট্রাকশন","কম্পিউটার সায়েন্স","কেমিক্যাল","গ্লাস","পাওয়ার","ফুড","সিভিল","সিভিল(উড)","সিরামিক"]}
     ];
 
-    // 🔹 DOM Elements
-    const searchInput = document.getElementById('searchInput');
-    const semesterFilter = document.getElementById('semesterFilter');
-    const deptFilter = document.getElementById('deptFilter');
-    const tableBody = document.getElementById('tableBody');
-    const noResult = document.getElementById('noResult');
-    const stats = document.getElementById('stats');
+    // 🔍 ড্রপডাউন পপুলেট করা
+    function populateDropdowns() {
+      const semSelect = document.getElementById('semesterFilter');
+      const deptSelect = document.getElementById('deptFilter');
+      
+      const semesters = [...new Set(routineData.map(i => i.semester))].sort();
+      const departments = [...new Set(routineData.flatMap(i => i.departments))].sort();
 
-    // 🔹 ফিল্টার অপশন পপুলেট করা
-    function populateFilters() {
-        const semesters = new Set();
-        const departments = new Set();
+      semesters.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s; opt.textContent = s;
+        semSelect.appendChild(opt);
+      });
 
-        routineData.forEach(item => {
-            if (item.semester !== 'সকল') semesters.add(item.semester);
-            item.depts.forEach(dept => {
-                if (dept !== 'সকল টেকনোলজি') departments.add(dept);
-            });
-        });
-
-        // সেমিস্টার সর্ট করা
-        const semOrder = ["১ম", "২য়", "৩য়", "৪র্থ", "৫ম", "৬ষ্ঠ", "৭ম", "৮ম"];
-        [...semesters].sort((a, b) => semOrder.indexOf(a) - semOrder.indexOf(b)).forEach(sem => {
-            const opt = document.createElement('option');
-            opt.value = sem;
-            opt.textContent = sem + ' পর্ব';
-            semesterFilter.appendChild(opt);
-        });
-
-        // ডিপার্টমেন্ট সর্ট করে যোগ করা
-        [...departments].sort((a, b) => a.localeCompare(b, 'bn')).forEach(dept => {
-            const opt = document.createElement('option');
-            opt.value = dept;
-            opt.textContent = dept;
-            deptFilter.appendChild(opt);
-        });
+      departments.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d; opt.textContent = d;
+        deptSelect.appendChild(opt);
+      });
     }
 
-    // 🔹 টেবিল রেন্ডার ও ফিল্টার লজিক
-    function filterAndRender() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const selectedSem = semesterFilter.value;
-        const selectedDept = deptFilter.value;
+    // 📋 টেবিল রেন্ডার করা
+    function renderTable(data) {
+      const tbody = document.getElementById('routineBody');
+      tbody.innerHTML = '';
+      
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="no-data">❌ কোনো রুটিন পাওয়া যায়নি। অনুগ্রহ করে ফিল্টার পরিবর্তন করুন।</td></tr>';
+        return;
+      }
 
-        const filteredData = routineData.filter(item => {
-            const matchesSearch = !searchTerm || 
-                                  item.name.toLowerCase().includes(searchTerm) || 
-                                  item.code.includes(searchTerm);
-            const matchesSem = !selectedSem || item.semester === selectedSem;
-            const matchesDept = !selectedDept || item.depts.includes(selectedDept);
-
-            return matchesSearch && matchesSem && matchesDept;
-        });
-
-        tableBody.innerHTML = '';
-        
-        if (filteredData.length === 0) {
-            noResult.style.display = 'block';
-            stats.textContent = '';
-            return;
-        }
-
-        noResult.style.display = 'none';
-        stats.textContent = `মোট ${filteredData.length} টি ফলাফল পাওয়া গেছে`;
-
-        filteredData.forEach(item => {
-            const row = document.createElement('tr');
-            
-            const deptBadges = item.depts.map(d => `<span class="badge">${d}</span>`).join('');
-            
-            row.innerHTML = `
-                <td>${item.date}<br><small style="color:var(--text-light)">${item.day}</small></td>
-                <td><strong>${item.time}</strong></td>
-                <td><code style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">${item.code}</code></td>
-                <td><strong>${item.name}</strong></td>
-                <td>${item.semester}</td>
-                <td>${deptBadges}</td>
-            `;
-            tableBody.appendChild(row);
-        });
+      data.forEach(item => {
+        const row = document.createElement('tr');
+        const deptHTML = item.departments.map(d => `<span class="dept-tag">${d}</span>`).join('');
+        row.innerHTML = `
+          <td>${item.date}</td>
+          <td>${item.day}</td>
+          <td>${item.time}</td>
+          <td>${item.semester}</td>
+          <td><strong>${item.code}</strong></td>
+          <td>${item.name}</td>
+          <td>${deptHTML}</td>
+        `;
+        tbody.appendChild(row);
+      });
     }
 
-    // 🔹 ইভেন্ট লিসেনার
-    searchInput.addEventListener('input', filterAndRender);
-    semesterFilter.addEventListener('change', filterAndRender);
-    deptFilter.addEventListener('change', filterAndRender);
+    // 🔎 ফিল্টার লজিক
+    function filterRoutine() {
+      const nameQuery = document.getElementById('nameSearch').value.trim().toLowerCase();
+      const codeQuery = document.getElementById('codeSearch').value.trim();
+      const semFilter = document.getElementById('semesterFilter').value;
+      const deptFilter = document.getElementById('deptFilter').value;
 
-    // 🔹 প্রাথমিক লোড
-    populateFilters();
-    filterAndRender();
-</script>
+      const filtered = routineData.filter(item => {
+        const matchName = !nameQuery || item.name.toLowerCase().includes(nameQuery);
+        const matchCode = !codeQuery || item.code.includes(codeQuery);
+        const matchSem = !semFilter || item.semester === semFilter;
+        const matchDept = !deptFilter || 
+                          item.departments.includes(deptFilter) || 
+                          item.departments.some(d => d.includes('সকল টেকনোলজি'));
+        return matchName && matchCode && matchSem && matchDept;
+      });
 
+      renderTable(filtered);
+    }
+
+    // 🔄 ইভেন্ট লিসেনার
+    document.getElementById('nameSearch').addEventListener('input', filterRoutine);
+    document.getElementById('codeSearch').addEventListener('input', filterRoutine);
+    document.getElementById('semesterFilter').addEventListener('change', filterRoutine);
+    document.getElementById('deptFilter').addEventListener('change', filterRoutine);
+    
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      document.getElementById('nameSearch').value = '';
+      document.getElementById('codeSearch').value = '';
+      document.getElementById('semesterFilter').value = '';
+      document.getElementById('deptFilter').value = '';
+      renderTable(routineData);
+    });
+
+    // 🚀 ইনিশিয়ালাইজ
+    window.addEventListener('DOMContentLoaded', () => {
+      populateDropdowns();
+      renderTable(routineData);
+    });
+  </script>
 </body>
 </html>
